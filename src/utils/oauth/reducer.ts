@@ -32,7 +32,7 @@ export const oauthSlice = createSlice({
   name: 'oauth',
   initialState,
   reducers: {
-    clear: (state, action: PayloadAction<undefined>) => {
+    clear: (state, action: PayloadAction<void>) => {
       return initialState
     },
     updateError: (state, action: PayloadAction<string>) => {
