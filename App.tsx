@@ -21,15 +21,15 @@ import {
   useColorScheme,
 } from 'react-native'
 
-import { Provider, useSelector } from 'react-redux'
+import { Provider as ReduxProvider, useSelector } from 'react-redux'
 
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen'
 
-import { redditApi } from 'reddit/api'
-
 import { RootState, store } from '@app/store'
+
+import ScopesList from '@app/reddit/scopes'
 
 import {
   handleRedirect,
@@ -93,14 +93,22 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+  title: {
+    fontSize: 32,
+    fontWeight: '600'
+  }
 })
 
-const App = () => {
-  // const { accessToken } = useSelector((state: RootState) => state.oauth)
+// TODO: create theme provider component
+const TopBar: React.FC = () => {
+  return (
+    <View>
+      <Text style={styles.title}>MeReddit</Text>
+    </View>
+  )
+}
 
-  const { oauth } = store.getState()
-  const { accessToken } = oauth
-
+const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark'
 
   const backgroundStyle = {
@@ -120,7 +128,7 @@ const App = () => {
   }, [])
 
   return (
-    <Provider store={store}>
+    <ReduxProvider store={store}>
       <SafeAreaView style={backgroundStyle}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
 
@@ -129,9 +137,8 @@ const App = () => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
             display: 'flex',
             height: '100%',
-            justifyContent: 'center',
-            padding: 20,
           }}>
+          <TopBar />
 
           <Button
             color='orangered'
@@ -139,16 +146,10 @@ const App = () => {
             title='Reddit'
             />
 
-          <Button
-            color='teal'
-            onPress={() => {
-              redditApi('GET', 'api/v1/me')
-            }}
-            title='Test Me'
-            />
+          <ScopesList />
         </View>
       </SafeAreaView>
-    </Provider>
+    </ReduxProvider>
   )
 }
 
