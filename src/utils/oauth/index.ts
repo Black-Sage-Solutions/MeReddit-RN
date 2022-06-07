@@ -27,7 +27,7 @@ function startAuthRequest() : void {
     duration: 'permanent',
     redirect_uri: redirectUri,
     response_type: 'code',
-    scope: 'identity edit flair mysubreddits save submit subscribe vote',
+    scope: 'identity edit flair mysubreddits read save submit subscribe vote',
     state: (Math.random() + 1).toString(36).substring(7),  // TODO save?
   }
 
