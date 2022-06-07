@@ -9,8 +9,6 @@ import oauthReducer from '@utils/oauth/reducer'
 
 import { noauthApi } from '@app/reddit/noauth-api'
 
-import profileReducer from '@app/reddit/profile/reducer'
-
 const middleware: any[] = []
 
 // FIXME: If flipper is not running, the app doesn't start
@@ -26,7 +24,6 @@ export const store = configureStore({
   reducer: {
     oauth: oauthReducer,
     [noauthApi.reducerPath]: noauthApi.reducer,
-    profile: profileReducer,
   }
 })
 
