@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { useEffect, useState } from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 
 import {
   Button,
@@ -16,26 +16,29 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
-  Text,
   View,
   useColorScheme,
 } from 'react-native'
 
-import { Provider as ReduxProvider, useSelector } from 'react-redux'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen'
+  Provider as ReduxProvider,
+  useSelector,
+} from 'react-redux'
 
-import { RootState, store } from '@app/store'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import ScopesList from '@app/reddit/scopes'
+import { useKeepAwake } from '@sayem314/react-native-keep-awake'
+
+import RootNavigation from '@app/navigation/root'
+
+import { store } from '@app/store'
 
 import {
   handleRedirect,
   startAuthRequest,
 } from '@utils/oauth'
-
 import { parse } from '@utils/uri/parse'
 
 type IntentMap = {
@@ -53,8 +56,6 @@ function delegateIntent({url} : {url: string}) {
   console.warn('Received Intent:', url)
 
   const urlData: IUri = parse(url)
-
-  console.log({urlData})
 
   const handler: Function | undefined = routes[urlData.host] || undefined
 
@@ -76,44 +77,10 @@ function getInitialUrl() : string | null {
   return url
 }
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: '600'
-  }
-})
+export default function App() {
+  useKeepAwake()
 
-// TODO: create theme provider component
-const TopBar: React.FC = () => {
-  return (
-    <View>
-      <Text style={styles.title}>MeReddit</Text>
-    </View>
-  )
-}
-
-const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark'
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  }
 
   const initialUrl = getInitialUrl()
 
@@ -128,29 +95,17 @@ const App: React.FC = () => {
   }, [])
 
   return (
-    <ReduxProvider store={store}>
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            display: 'flex',
-            height: '100%',
-          }}>
-          <TopBar />
-
-          <Button
-            color='orangered'
-            onPress={startAuthRequest}
-            title='Reddit'
+    <StrictMode>
+      <ReduxProvider store={store}>
+        <SafeAreaProvider>
+          <StatusBar 
+            backgroundColor={isDarkMode ? Colors.black : Colors.white}
+            barStyle={isDarkMode ? 'default' : 'dark-content'}
             />
 
-          <ScopesList />
-        </View>
-      </SafeAreaView>
-    </ReduxProvider>
+          <RootNavigation />
+        </SafeAreaProvider>
+      </ReduxProvider>
+    </StrictMode>
   )
 }
-
-export default App
