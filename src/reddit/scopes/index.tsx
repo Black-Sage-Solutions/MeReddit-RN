@@ -1,6 +1,8 @@
-import React from "react"
+/**
+ * TODO: maybe move module to src/reddit/config?
+ */
 
-import { FlatList, StyleSheet, Text, View } from "react-native"
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 
 import { useGetScopesQuery } from '@app/reddit/noauth-api'
 
@@ -16,11 +18,6 @@ const style = StyleSheet.create({
   }
 })
 
-type ScopeData = {
-  description: string,
-  id:          string,
-  name:        string,  
-}
 
 type FlatListItemProps = {item: ScopeData}
 
@@ -33,16 +30,14 @@ const ScopeItem = ({item} : FlatListItemProps) => {
   )
 }
 
-const ScopesList: React.FC = () => {
-  const { data, error, isLoading }  = useGetScopesQuery()
+export default function ScopesList() {
+  const { data, error, isLoading }  = useGetScopesQuery() 
 
 	return (
     <FlatList
-      data={data && Object.values(data) || []}
+      data={data || []}
       keyExtractor={item => item.id}
       renderItem={ScopeItem}
       />
   )
 }
-
-export default ScopesList
