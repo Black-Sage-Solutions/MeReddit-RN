@@ -31,7 +31,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useKeepAwake } from '@sayem314/react-native-keep-awake'
 
-import RootNavigation from '@app/navigation/root'
+import { RootNavigation } from '@app/navigation/root'
 
 import { store } from '@app/store'
 
