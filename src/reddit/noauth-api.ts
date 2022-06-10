@@ -6,6 +6,11 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+type PostCommentsQueryArgs = {
+  subreddit: string,
+  postId:    string,
+}
+
 export const noauthApi = createApi({
   reducerPath: 'noauthApi',
   baseQuery: fetchBaseQuery({baseUrl: 'https://www.reddit.com'}),
@@ -17,12 +22,28 @@ export const noauthApi = createApi({
       },
     }),
     getFrontpage: builder.query<any, void>({
-      query: () => '/',
+      query: () => '/.json',
+    }),
+    getPostComments: builder.query<any, PostCommentsQueryArgs>({
+      query: ({subreddit, postId}) => `/r/${subreddit}/comments/${postId}.json`,
+      transformResponse: (response: Array<any>) => {
+        const [post, comments] = response
+        return {post: post.data.children[0].data, comments: comments.data.children}
+      },
     }),
     getSubreddit: builder.query<any, string>({  // TODO, figure out query params
-      query: (subreddit) => `/r/${subreddit}`
+      query: (subreddit) => `/r/${subreddit}.json`
+    }),
+    getUser: builder.query<any, string>({
+      query: (userName) => `/user/${userName}.json`
     }),
   }),
 })
 
-export const { useGetFrontpageQuery, useGetScopesQuery } = noauthApi
+export const {
+  useGetFrontpageQuery,
+  useGetPostCommentsQuery,
+  useGetScopesQuery,
+  useGetSubredditQuery,
+  useGetUserQuery
+} = noauthApi
