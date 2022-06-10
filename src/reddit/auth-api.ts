@@ -27,13 +27,13 @@ export const authApi = createApi({
   }),
   endpoints: (builder) => ({
     getFrontpage: builder.query<any, void>({
-      query: () => '/'
+      query: () => '/.json'
     }),
     getMe: builder.query({
       query: () => '/api/v1/me'
     }),
     getSubreddit: builder.query<any, string>({  // TODO, figure out query params
-      query: (subreddit) => `/r/${subreddit}`
+      query: (subreddit) => `/r/${subreddit}.json`
     }),
   }),
 })
