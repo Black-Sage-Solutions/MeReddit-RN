@@ -19,7 +19,16 @@ if (__DEV__) {
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(noauthApi.middleware, ...middleware)
+    return getDefaultMiddleware({
+      thunk: true,
+      immutableCheck: true,
+      serializableCheck: {
+        warnAfter: 256,
+      },
+    }).concat(
+      noauthApi.middleware,
+      ...middleware
+    )
   },
   reducer: {
     oauth: oauthReducer,
