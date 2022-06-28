@@ -4,39 +4,40 @@ test.each([
   {
     test: 'mereddit://oauth2redirect/reddit?a=true&b=thing#c=yes&d=no',
     expected: {
-      fragment: new Map<string, string>([
+      fragment: [
         ['c', 'yes'],
         ['d', 'no'],
-      ]),
+      ],
       host: 'oauth2redirect',
       path: 'reddit',
-      query: new Map<string, string>([
+      query: [
         ['a', 'true'],
         ['b', 'thing'],
-      ]),
+      ],
       scheme: 'mereddit',
     },
   },
   {
     test: 'https://www.reddit.com/r/linux',
     expected: {
-      fragment: new Map(),
+      fragment: [],
       host: 'www.reddit.com',
       path: 'r/linux',
-      query: new Map(),
+      query: [],
       scheme: 'https',
     },
   },
   {
     test: 'https://www.reddit.com/r/dev?verbose=v&verbose=vv&a=true',
     expected: {
-      fragment: new Map(),
+      fragment: [],
       host: 'www.reddit.com',
       path: 'r/dev',
-      query: new Map<string, string>([
-        ['verbose', 'vv'],
+      query: [
         ['a', 'true'],
-      ]),
+        ['verbose', 'v'],
+        ['verbose', 'vv'],
+      ],
       scheme: 'https',
     },
   },

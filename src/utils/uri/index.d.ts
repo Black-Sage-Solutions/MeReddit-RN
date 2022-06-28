@@ -3,19 +3,21 @@
  */
 
 interface FormUrlEncodeObject {
-  params:     {[key: string]: string}
+  params:     UriParams | Iterable<string, any>
   delimiter?: string
 }
 
-interface IUri {
-  fragment: Map<string, string[] | string>
+interface Uri {
+  fragment: UriParams
   host:     string
   path:     string
-  query:    Map<string, string[] | string>
+  query:    UriParams
   scheme:   string
 }
 
-interface IUrl {
+type UriParams = Array<[string,string]>
+
+interface Url {
   base?:     string
   fragment?: Iterable<string, any>
   host?:     string
@@ -23,5 +25,3 @@ interface IUrl {
   query?:    Iterable<string, any>
   scheme?:   string
 }
-
-type UriParams = Map<string, string[] | string>
