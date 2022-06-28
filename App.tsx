@@ -55,7 +55,7 @@ function delegateIntent({url} : {url: string}) {
 
   console.warn('Received Intent:', url)
 
-  const urlData: IUri = parse(url)
+  const urlData: Uri = parse(url)
 
   const handler: Function | undefined = routes[urlData.host] || undefined
 

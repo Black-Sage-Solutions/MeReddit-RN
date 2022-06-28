@@ -1,7 +1,7 @@
 import { isEmpty } from "utils/misc";
 import { formUrlEncode } from "./encode";
 
-interface UrlParams extends IUrl {
+interface UrlParams extends Url {
   delimiter?: string;
 }
 

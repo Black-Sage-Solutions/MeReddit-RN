@@ -18,7 +18,9 @@ test.each([
   },
   {
     test: {
-      fragment: new Map<string, string>([['unit', 'test']]),
+      fragment: [
+        ['unit', 'test']
+      ],
       host: 'testing',
       path: 'the/url/gen',
       query: {
