@@ -18,7 +18,7 @@ import { htmlUnescape } from '@app/utils/text'
 import EmptyListComponent from '@components/empty-list'
 import Loading from '@components/loading'
 
-import LinkText from '@ui/link-text'
+import LinkText from '@ui/text/link-text'
 
 const style = StyleSheet.create({
   commentBody: {

@@ -12,7 +12,7 @@ import { RootStackParamList } from '@app/navigation/root'
 
 import NowContext from '@contexts/now'
 
-import LinkText from '@ui/link-text'
+import LinkText from '@ui/text/link-text'
 
 const style = StyleSheet.create({
   container: {
