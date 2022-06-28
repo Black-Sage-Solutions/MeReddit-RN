@@ -11,21 +11,14 @@
 import { StrictMode, useEffect, useState } from 'react'
 
 import {
-  Button,
   Linking,
-  SafeAreaView,
   StatusBar,
-  StyleSheet,
-  View,
   useColorScheme,
 } from 'react-native'
 
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-import {
-  Provider as ReduxProvider,
-  useSelector,
-} from 'react-redux'
+import { Provider as ReduxProvider } from 'react-redux'
 
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
@@ -35,13 +28,11 @@ import { RootNavigation } from '@app/navigation/root'
 
 import { store } from '@app/store'
 
-import {
-  handleRedirect,
-  startAuthRequest,
-} from '@utils/oauth'
+import { handleRedirect } from '@utils/oauth'
+
 import { parse } from '@utils/uri/parse'
 
-type IntentMap = {
+interface IntentMap {
   [key: string]: Function
 }
 

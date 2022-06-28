@@ -11,7 +11,6 @@ import { noauthApi } from '@app/reddit/noauth-api'
 
 const middleware: any[] = []
 
-// FIXME: If flipper is not running, the app doesn't start
 if (__DEV__) {
   const createDebugger = require("redux-flipper").default
   middleware.push(createDebugger())
