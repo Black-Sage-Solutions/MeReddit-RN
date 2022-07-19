@@ -1,10 +1,8 @@
 import { formatDistance, fromUnixTime } from 'date-fns'
 
-import { useCallback, useContext } from 'react'
+import { useContext } from 'react'
 
-import { StyleSheet, Text, View, useColorScheme } from 'react-native'
-
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { StyleSheet, Text, View, Pressable } from 'react-native'
 
 import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native'
 
@@ -12,19 +10,24 @@ import { RootStackParamList } from '@app/navigation/root'
 
 import NowContext from '@contexts/now'
 
-import LinkText from '@ui/text/link-text'
+import VoteVertical from '@components/vote-vertical'
+
+import SubredditLink from '@components/text/subreddit-link'
+import UserLink from '@components/text/user-link'
+
+import { usePalette } from '@ui/palette'
 
 const style = StyleSheet.create({
   container: {
-    borderColor: '#fff',
     borderRadius: 8,
     borderWidth: 1,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    flexDirection: 'row',
+    overflow: 'hidden',
   },
   postTitle: {
+    flexShrink: 1,
     fontSize: 20,
-    paddingVertical: 2,
+    paddingVertical: 4,
   }
 })
 
@@ -44,7 +47,7 @@ interface PostItemProps {
 }
 
 export default function PostItem({data}: PostItemProps) : JSX.Element {
-  const isDarkMode = useColorScheme() == 'dark'
+  const palette = usePalette()
   const {navigate} = useNavigation<NavigationProp<RootStackParamList>>()
 
   const route = useRoute()
@@ -53,35 +56,29 @@ export default function PostItem({data}: PostItemProps) : JSX.Element {
   const now = useContext(NowContext)
   const timeSubmittedAgo = formatDistance(fromUnixTime(data.created), now, {addSuffix: true})
 
-  const goToComments = useCallback(() => {
-    return navigate('Comments', {postId: data.id, subreddit: data.subreddit})
-  }, [data.id, data.subreddit])
-
-  const goToSubreddit = useCallback(() => {
-    return navigate('Subreddit', {subreddit: data.subreddit})
-  }, [data.subreddit])
-
-  // could stuff these things into its own components
-  const goToUserProfile = useCallback(() => {
-    return navigate('User', {userName: data.author})
-  }, [data.author])
-
-  const submitter = <Text> by <LinkText onPress={goToUserProfile}>{data?.author}</LinkText></Text>
-
-  const subredditLink = (route.name == 'Frontpage') ? (
-    <Text> to <LinkText onPress={goToSubreddit}>{data?.subreddit_name_prefixed}</LinkText></Text>
-  ) : null
-
-  const fgColour = {
-    borderColor: (isDarkMode) ? Colors.white : Colors.black
-  }
-
   return (
-    <View style={[style.container, fgColour]}>
-      <Text onPress={goToComments} style={style.postTitle}>{data?.title}</Text>
-      <Text>{timeSubmittedAgo}{submitter}{subredditLink}</Text>
-      <Text>{data?.score || '*'}</Text>
-      <Text></Text>
+    <View style={[style.container, {borderColor: palette.fgColour}]}>
+      <View style={{paddingLeft: 8}}>
+        <VoteVertical score={data?.score} />
+      </View>
+
+      <Pressable
+        onPress={() => {
+          navigate('Comments', {postId: data.id, subreddit: data.subreddit})
+        }}
+        style={{flexShrink: 1, padding: 8}}
+        >
+
+        {
+          route.name == 'Frontpage' ? (
+            <SubredditLink subreddit={data?.subreddit} />
+          ) : null
+        }
+
+        <Text style={style.postTitle}>{data?.title}</Text>
+
+        <Text>{timeSubmittedAgo} by <UserLink userName={data?.author} /></Text>
+      </Pressable>
     </View>
   )
 }

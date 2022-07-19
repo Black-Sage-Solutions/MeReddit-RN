@@ -1,10 +1,8 @@
 import { formatDistance, fromUnixTime } from 'date-fns'
 
-import { useCallback, useContext } from 'react'
+import { useContext } from 'react'
 
-import { FlatList, Image, StyleSheet, Text, View, useColorScheme } from 'react-native'
-
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
 
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -18,7 +16,10 @@ import { htmlUnescape } from '@app/utils/text'
 import EmptyListComponent from '@components/empty-list'
 import Loading from '@components/loading'
 
-import LinkText from '@ui/text/link-text'
+import LinkText from '@components/text/link-text'
+import UserLink from 'components/text/user-link'
+
+import { usePalette } from '@ui/palette'
 
 const style = StyleSheet.create({
   commentBody: {
@@ -55,8 +56,6 @@ function ItemSeparator() : JSX.Element {
   )
 }
 
-type CommentsScreenProps = NativeStackScreenProps<RootStackParamList, 'Comments'>
-
 interface Comment {
   author:  string
   body:    string
@@ -65,16 +64,21 @@ interface Comment {
 }
 
 function CommentView({data} : {data: Comment}) : JSX.Element {
-  const isDarkMode = useColorScheme() == 'dark'
-  const fgColour = {
-    borderColor: (isDarkMode) ? Colors.white : Colors.black
-  }
+  const palette = usePalette()
+
   const now = useContext(NowContext)
+
   const timeSubmittedAgo = formatDistance(fromUnixTime(data.created), now, {addSuffix: true})
+
   return (
-    <View style={[style.container, fgColour]}>
-      <Text><LinkText>u/{data.author}</LinkText> {data.score} points {timeSubmittedAgo}</Text>
-      <Text style={style.commentBody}>{htmlUnescape(data.body)}</Text>
+    <View style={[style.container, {borderColor: palette.fgColour}]}>
+      <Text><UserLink userName={data.author} /> {data.score} points {timeSubmittedAgo}</Text>
+      <Text
+        selectable={true}
+        style={style.commentBody}
+        >
+        {htmlUnescape(data.body)}
+      </Text>
     </View>
   )
 }
@@ -102,7 +106,7 @@ interface Post {
   title: string
 }
 
-type PostPreviewProps = {
+interface PostPreviewProps {
   post: Post
 }
 
@@ -127,40 +131,30 @@ function PostPreview({post}: PostPreviewProps) : JSX.Element {
   )
 }
 
-type PostViewProps = {
-  post: Post,
+interface PostViewProps {
+  post: Post
 }
 
 function PostView({post}: PostViewProps) : JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark'
-
-  const bgColour = {
-    backgroundColor: (isDarkMode) ? Colors.black : Colors.white
-  }
-
-  const {navigate} = useNavigation<NavigationProp<RootStackParamList>>()
-
-  const goToUserProfile = useCallback(() => {
-    return navigate('User', {userName: post.author})
-  }, [post.author])
-
-  const submitter = <LinkText onPress={goToUserProfile}>u/{post.author}</LinkText>
+  const palette = usePalette()
 
   return (
-    <View style={[style.titleContainer, bgColour]}>
+    <View style={[style.titleContainer, {backgroundColor: palette.bgColour}]}>
       <Text>{post.subreddit_name_prefixed}</Text>
       <Text style={style.title}>{post.title}</Text>
-      <Text>Submitted by {submitter}</Text>
+      <Text>Submitted by <UserLink userName={post.author} /></Text>
     </View>
   )
 }
 
-export default function CommentsScreen({route} : CommentsScreenProps) : JSX.Element {
+type CommentsScreenProps = NativeStackScreenProps<RootStackParamList, 'Comments'>
+
+export default function CommentsScreen({route}: CommentsScreenProps) : JSX.Element {
   const {postId, subreddit} = route.params
 
   const {data, isFetching, isLoading, refetch} = useGetPostCommentsQuery({postId, subreddit})
 
-  const {post, comments, moreComments} = data || {post: null, comments: null, moreComments: null}
+  const {post, comments} = data || {post: null, comments: null}
 
   const nowDate = new Date()
 

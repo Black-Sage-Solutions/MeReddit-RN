@@ -1,9 +1,8 @@
-import { useSelector } from "react-redux"
+import BaseScreen from '@app/screens/base'
 
-const Profile = (props) => {
-	
-
-	return (
-
-	)
+export default function ProfileScreen() {
+  return (
+    <BaseScreen>
+    </BaseScreen>
+  )
 }

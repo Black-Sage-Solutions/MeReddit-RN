@@ -5,6 +5,8 @@ import {
     Text, View
 } from 'react-native'
 
+import Icon from 'react-native-vector-icons/FontAwesome5'
+
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { RootStackParamList } from '@app/navigation/root'
@@ -21,25 +23,31 @@ import EmptyListComponent from '@components/empty-list'
 
 import Loading from '@components/loading'
 
+import { usePalette } from '@ui/palette'
+
 const style = StyleSheet.create({
   controlButton: {
-    backgroundColor: '#999',
-    padding: 8,
-    width: 80,
+    alignItems: 'center',
+    borderRadius: 16,
+    flexDirection: 'row',
+    paddingHorizontal: 8,
   },
   controlNext: {
-    textAlign: 'right',
+    justifyContent: 'flex-end',
   },
-  controlPrevious: {
-
+  controlText: {
+    fontSize: 10,
+    paddingHorizontal: 8,
   },
   list: {
     marginHorizontal: 8,
   },
   listControls: {
+    borderColor: '#666',
+    borderTopWidth: 1,
     alignItems: 'center',
     flexDirection: 'row',
-    height: 48,
+    // height: 48,
     justifyContent: 'space-between',
     padding: 8,
     textAlign: 'center',
@@ -55,18 +63,17 @@ const style = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    margin: 8,
   },
 })
 
-export interface SubredditPagePositionState {
-  markers: Array<string>
+interface SubredditPagePositionState {
+  markers: string[]
   count:   number
 }
 
 interface SubredditPagePositionAction {
-  name?:  string
-  type: 'next' | 'previous'
+  name?: string
+  type:  'next' | 'previous'
 }
 
 const initialSubredditPagePosition: SubredditPagePositionState = {
@@ -100,16 +107,32 @@ interface ListControlsProps {
 }
 
 function ListControls({nextPage, page, previousPage}: ListControlsProps) : JSX.Element {
+  const palette = usePalette()
+
+  const isFirstPage = page == 1
+
+  const prevBgColour = isFirstPage ? palette.buttons.bg.disabled : palette.buttons.bg.default
+  const prevColour = isFirstPage ? palette.buttons.fg.disabled : palette.buttons.fg.default
+
   return (
-    <View style={style.listControls}>
-      <Pressable onPress={previousPage}>
-        <Text style={[style.controlButton, style.controlPrevious]}>{'< Previous'}</Text>
+    <View style={[style.listControls, {borderColor: palette.bgColour}]}>
+      <Pressable
+        disabled={isFirstPage}
+        onPress={previousPage}
+        style={[style.controlButton, {backgroundColor: prevBgColour}]}
+        >
+        <Icon color={prevColour} name='angle-left' size={28} />
+        <Text style={[style.controlText, {color: prevColour}]}>Prev</Text>
       </Pressable>
 
-      <Text>{page}</Text>
+      <Text style={{color: palette.fgColour}}>Page: {page}</Text>
 
-      <Pressable onPress={nextPage}>
-        <Text style={[style.controlButton, style.controlNext]}>{'Next >'}</Text>
+      <Pressable
+        onPress={nextPage}
+        style={[style.controlButton, style.controlNext, {backgroundColor: palette.buttons.bg.default}]}
+        >
+        <Text style={[style.controlText, {color: palette.buttons.fg.default}]}>Next</Text>
+        <Icon color={palette.buttons.fg.default} name='angle-right' size={28} />
       </Pressable>
     </View>
   )
@@ -139,21 +162,37 @@ export default function SubredditScreen({route} : SubredditScreenProps) : JSX.El
   // Is there actually a performance improvement with providing a now context for PostItem?
   const nowDate = new Date()
 
-  const posts: Array<{data: Post}> = data?.data?.children
+  const posts: Array<{data: Post}> = data?.data?.children || []
 
   return (
     <BaseScreen>
       <NowContext.Provider value={nowDate}>
-        <Text style={style.title}>
-          {
-            (route.params?.subreddit) ? 'r/' + route.params.subreddit : 'MeReddit'
-          }
-        </Text>
+        <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 8}}>
+          <Pressable>
+            <Text style={style.title}>
+              {
+                (route.params?.subreddit) ? `r/${route.params.subreddit}` : 'MeReddit'
+              }
+            </Text>
+          </Pressable>
 
+          <Pressable
+            style={{
+              alignItems: 'center',
+              height: 32,
+              justifyContent: 'center',
+              width: 32,
+            }}
+            >
+            <Icon name='ellipsis-v' size={20} />
+          </Pressable>
+        </View>
+
+        {/* TODO scroll to the ends when going to the next or previous page */}
         <FlatList
           ItemSeparatorComponent={() => <View style={style.separator} />}
           ListEmptyComponent={() => (isLoading) ? <Loading /> : <EmptyListComponent />}
-          data={data?.data?.children || []}
+          data={posts}
           keyExtractor={item => item.data.id}
           onRefresh={refetch}
           refreshing={isFetching}
@@ -161,11 +200,12 @@ export default function SubredditScreen({route} : SubredditScreenProps) : JSX.El
           style={style.list}
           />
 
+        {/* TODO need to figure out how to integrate into react-navigation's tabbar */}
         <ListControls
           nextPage={() => {
             dispatch({type: 'next', name: posts[posts.length - 1].data.name})
           }}
-          page={pageState.count}
+          page={pageState.count / 25}
           previousPage={() => {
             dispatch({type: 'previous'})
           }}
