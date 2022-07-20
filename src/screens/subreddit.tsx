@@ -11,7 +11,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { RootStackParamList } from '@app/navigation/root'
 
-import { useGetFrontpageQuery, useGetSubredditQuery } from '@app/reddit/noauth-api'
+import { useGetSubredditQuery } from '@app/reddit/noauth-api'
 
 import BaseScreen from '@app/screens/base'
 
@@ -67,7 +67,7 @@ const style = StyleSheet.create({
 })
 
 interface SubredditPagePositionState {
-  markers: string[]
+  markers: string[]  // are comment ids that are used in the reddit api
   count:   number
 }
 
@@ -143,21 +143,11 @@ type SubredditScreenProps = NativeStackScreenProps<RootStackParamList, 'Frontpag
 export default function SubredditScreen({route} : SubredditScreenProps) : JSX.Element {
   const [pageState, dispatch] = useReducer(reducerSubredditPagePosition, initialSubredditPagePosition)
 
-  const useSubredditListingQuery = useCallback(
-    () => {
-      const after = pageState.markers[pageState.markers.length - 1] || ''
-      const count = pageState.count
-
-      if (route.params?.subreddit) {
-        return useGetSubredditQuery({after, count, subreddit: route.params.subreddit})
-      } else {
-        return useGetFrontpageQuery({after, count})
-      }
-    },
-    [route.params?.subreddit, pageState.count]
-  )
-
-  const {data, isFetching, isLoading, refetch} = useSubredditListingQuery()
+  const {data, isFetching, isLoading, refetch} = useGetSubredditQuery({
+    after: pageState.markers[pageState.markers.length - 1] || '',
+    count: pageState.count,
+    subreddit: route?.params?.subreddit,
+  })
 
   // Is there actually a performance improvement with providing a now context for PostItem?
   const nowDate = new Date()

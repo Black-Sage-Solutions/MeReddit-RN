@@ -45,7 +45,8 @@ export const noauthApi = createApi({
     getSubreddit: builder.query<any, SubredditQueryArgs>({
       query: ({after, count, subreddit}) => {
         const queryArgs = (after && count) ? {after, count} : {}
-        return url({path: `r/${subreddit}.json`, query: queryArgs})
+        const place = subreddit ? `r/${subreddit}` : ''
+        return url({path: `${place}.json`, query: queryArgs})
       },
     }),
     getUser: builder.query<any, string>({
