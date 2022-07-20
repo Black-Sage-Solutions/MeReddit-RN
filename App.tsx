@@ -13,10 +13,7 @@ import { StrictMode, useEffect, useState } from 'react'
 import {
   Linking,
   StatusBar,
-  useColorScheme,
 } from 'react-native'
-
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 import { Provider as ReduxProvider } from 'react-redux'
 
@@ -27,6 +24,8 @@ import { useKeepAwake } from '@sayem314/react-native-keep-awake'
 import { RootNavigation } from '@app/navigation/root'
 
 import { store } from '@app/store'
+
+import { usePalette } from '@ui/palette'
 
 import { handleRedirect } from '@utils/oauth'
 
@@ -48,7 +47,7 @@ function delegateIntent({url} : {url: string}) {
 
   const urlData: Uri = parse(url)
 
-  const handler: Function | undefined = routes[urlData.host] || undefined
+  const handler = routes[urlData.host] || undefined
 
   handler != undefined && handler(urlData)
 }
@@ -71,17 +70,17 @@ function getInitialUrl() : string | null {
 export default function App() {
   useKeepAwake()
 
-  const isDarkMode = useColorScheme() === 'dark'
+  const palette = usePalette()
 
   const initialUrl = getInitialUrl()
 
   console.log({initialUrl})
 
   useEffect(() => {
-    Linking.addEventListener('url', delegateIntent)
+    const link = Linking.addEventListener('url', delegateIntent)
 
     return () => {
-      Linking.removeEventListener('url', delegateIntent)
+      link.remove()
     }
   }, [])
 
@@ -90,8 +89,8 @@ export default function App() {
       <ReduxProvider store={store}>
         <SafeAreaProvider>
           <StatusBar 
-            backgroundColor={isDarkMode ? Colors.black : Colors.white}
-            barStyle={isDarkMode ? 'default' : 'dark-content'}
+            backgroundColor={palette.bgColour}
+            barStyle={palette.scheme == 'dark' ? 'default' : 'dark-content'}
             />
 
           <RootNavigation />
