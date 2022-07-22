@@ -17,7 +17,7 @@ export default function UserLink({userName}: UserLinkProps) : JSX.Element {
         navigate('User', {userName})}
       }
       >
-      {userName}
+      u/{userName}
     </LinkText>
   )
 }

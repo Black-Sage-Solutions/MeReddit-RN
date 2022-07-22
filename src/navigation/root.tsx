@@ -4,13 +4,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
+import SearchComponent from '@components/search'
+
 import CommentsScreen from '@app/screens/comments'
+import ProfileScreen from '@app/screens/profile'
 import SubredditScreen from '@app/screens/subreddit'
 import UserScreen from '@app/screens/user'
-import ProfileScreen from '@app/screens/profile'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
-import { usePalette } from 'ui/palette'
-import SearchComponent from 'components/search'
+
+import { usePalette } from '@ui/palette'
 
 export interface RootStackParamList extends ParamListBase {
   Comments:  {postId: string, subreddit: string}
@@ -65,7 +66,7 @@ export function RootNavigation() : JSX.Element {
           name='Reddits'
           component={RedditsStackScreen}
           options={{
-            tabBarIcon: ({color, size}) => <Icon color={color} name='list-alt' size={size} />,
+            tabBarIcon: ({color, size}) => <Icon color={color} name='reddit-alien' size={size} />,
           }}
           />
         <Tab.Screen
@@ -79,7 +80,7 @@ export function RootNavigation() : JSX.Element {
           name='Profile'
           component={ProfileScreen}
           options={{
-            tabBarIcon: ({color, size}) => <Icon color={color} name='reddit-alien' size={size} />
+            tabBarIcon: ({color, size}) => <Icon color={color} name='user' size={size} />
           }}
           />
       </Tab.Navigator>

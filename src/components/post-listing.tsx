@@ -57,7 +57,7 @@ export default function PostItem({data}: PostItemProps) : JSX.Element {
   const timeSubmittedAgo = formatDistance(fromUnixTime(data.created), now, {addSuffix: true})
 
   return (
-    <View style={[style.container, {borderColor: palette.fgColour}]}>
+    <View style={[style.container]}>
       <View style={{paddingLeft: 8}}>
         <VoteVertical score={data?.score} />
       </View>

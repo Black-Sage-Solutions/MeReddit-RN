@@ -15,7 +15,9 @@ interface PostCommentsQueryArgs {
 interface SubredditQueryArgs {
   after?:     string
   count?:     number
+  sort?:      'controversial' | 'gilded' | 'new' | 'rising' | 'top'
   subreddit?: string
+  time?:      'all' | 'day' | 'hour' | 'month' | 'week' | 'year'
 }
 
 export const noauthApi = createApi({
@@ -28,12 +30,6 @@ export const noauthApi = createApi({
         return Object.values(response)
       },
     }),
-    getFrontpage: builder.query<any, SubredditQueryArgs>({
-      query: ({after, count}) => {
-        const queryArgs = (after && count) ? {after, count} : {}
-        return url({path: `.json`, query: queryArgs})
-      },
-    }),
     getPostComments: builder.query<any, PostCommentsQueryArgs>({
       query: ({subreddit, postId}) => `r/${subreddit}/comments/${postId}.json`,
       transformResponse: (response: Array<any>) => {
@@ -43,9 +39,14 @@ export const noauthApi = createApi({
       },
     }),
     getSubreddit: builder.query<any, SubredditQueryArgs>({
-      query: ({after, count, subreddit}) => {
+      query: ({after, count, sort, subreddit, time}) => {
         const queryArgs = (after && count) ? {after, count} : {}
         const place = subreddit ? `r/${subreddit}` : ''
+
+        if (time && sort != 'top') {
+          console.warn('`time` is only supported with the \'top\' `sort` option.')
+        }
+
         return url({path: `${place}.json`, query: queryArgs})
       },
     }),
@@ -56,7 +57,6 @@ export const noauthApi = createApi({
 })
 
 export const {
-  useGetFrontpageQuery,
   useGetPostCommentsQuery,
   useGetScopesQuery,
   useGetSubredditQuery,

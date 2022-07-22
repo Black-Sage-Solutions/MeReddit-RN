@@ -5,7 +5,7 @@ import { RootStackParamList } from '@app/navigation/root'
 import LinkText from '@components/text/link-text'
 
 interface SubredditLinkProps {
-  subreddit:               string
+  subreddit: string
 }
 
 export default function SubredditLink({subreddit}: SubredditLinkProps) : JSX.Element {
