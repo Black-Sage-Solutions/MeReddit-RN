@@ -19,7 +19,7 @@ interface VoteVerticalProps {
   score: number
 }
 
-export default function VoteVertical({score}: VoteVerticalProps) {
+export default function VoteVertical({score}: VoteVerticalProps) : JSX.Element {
   const palette = usePalette()
 
   return (

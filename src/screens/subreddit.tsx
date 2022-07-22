@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react'
+import { useReducer } from 'react'
 
 import {
     FlatList, Pressable, StyleSheet,
@@ -100,13 +100,13 @@ function reducerSubredditPagePosition(state: SubredditPagePositionState, action:
   }
 }
 
-interface ListControlsProps {
+interface PageControlsProps {
   nextPage:     (event: TouchEvent) => void
   page:         number
   previousPage: (event: TouchEvent) => void
 }
 
-function ListControls({nextPage, page, previousPage}: ListControlsProps) : JSX.Element {
+function PageControls({nextPage, page, previousPage}: PageControlsProps) : JSX.Element {
   const palette = usePalette()
 
   const isFirstPage = page == 1
@@ -191,7 +191,7 @@ export default function SubredditScreen({route} : SubredditScreenProps) : JSX.El
           />
 
         {/* TODO need to figure out how to integrate into react-navigation's tabbar */}
-        <ListControls
+        <PageControls
           nextPage={() => {
             dispatch({type: 'next', name: posts[posts.length - 1].data.name})
           }}
