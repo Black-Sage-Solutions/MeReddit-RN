@@ -1,12 +1,9 @@
-/**
- * 
- */
 import { Linking } from 'react-native'
 
+import { env } from '../../../app.json'
+
 import { store } from '@app/store'
-
 import { toBase64 } from '@utils/text'
-
 import { formUrlEncode } from '@utils/uri/encode'
 
 import { UpdateToken, clear, updateError, updateToken } from './reducer'
@@ -33,14 +30,14 @@ function startAuthRequest() : void {
 
   const encodedParams = formUrlEncode({params})
 
-  Linking.openURL(`https://ssl.reddit.com/api/v1/authorize.compact?${encodedParams}`)
+  Linking.openURL(`${env.reddit.secureLoginUrl}/authorize.compact?${encodedParams}`)
 }
 
 /**
  * [handleRedirect description]
- * @param {IUri} url [description]
+ * @param {Uri} url [description]
  */
-function handleRedirect(url: IUri) : void {
+function handleRedirect(url: Url) : void {
   if (url.query.has('error')) {
     console.warn('An error occured:', url.query.get('error'))
     return
@@ -64,14 +61,14 @@ type RedditAccessTokenResponse = RedditTokenResponse & {
  * [accessToken description]
  * @param {string} code [description]
  */
-function accessToken(code: string) : Promise<void> {
+async function accessToken(code: string) : Promise<void> {
   const params = {
     code,
     grant_type: 'authorization_code',
     redirect_uri: redirectUri,
   }
 
-  return fetch('https://ssl.reddit.com/api/v1/access_token', {
+  return fetch(`${env.reddit.secureLoginUrl}/access_token`, {
     body: formUrlEncode({params, delimiter: '&'}),
     headers: {
       'Authorization': `Basic ${toBase64(`${clientId}:`)}`,
@@ -99,7 +96,7 @@ function accessToken(code: string) : Promise<void> {
  * TODO: test flow
  * @return {Promise} [description]
  */
-function refreshToken() : Promise<void> {
+async function refreshToken() : Promise<void> {
   const { oauth } = store.getState()
   const { refreshToken } = oauth
 
@@ -108,7 +105,7 @@ function refreshToken() : Promise<void> {
     grant_type: 'refresh_token',
   }
 
-  return fetch('https://ssl.reddit.com/api/v1/refresh_token', {
+  return fetch(`${env.reddit.secureLoginUrl}/refresh_token`, {
     body: formUrlEncode({params, delimiter: '&'}),
     headers: {
       'Authorization': `Basic ${toBase64(`${clientId}:`)}`,
