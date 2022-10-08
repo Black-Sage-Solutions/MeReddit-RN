@@ -101,23 +101,27 @@ function reducerSubredditPagePosition(state: SubredditPagePositionState, action:
 }
 
 interface PageControlsProps {
+  disabled?:    boolean
   nextPage:     (event: TouchEvent) => void
   page:         number
   previousPage: (event: TouchEvent) => void
 }
 
-function PageControls({nextPage, page, previousPage}: PageControlsProps) : JSX.Element {
+function PageControls({disabled, nextPage, page, previousPage}: PageControlsProps) : JSX.Element {
   const palette = usePalette()
 
   const isFirstPage = page == 1
 
-  const prevBgColour = isFirstPage ? palette.buttons.bg.disabled : palette.buttons.bg.default
-  const prevColour = isFirstPage ? palette.buttons.fg.disabled : palette.buttons.fg.default
+  const nextBgColour = disabled ? palette.buttons.bg.disabled : palette.buttons.bg.default
+  const nextColour = disabled ? palette.buttons.fg.disabled : palette.buttons.fg.default
+
+  const prevBgColour = isFirstPage || disabled ? palette.buttons.bg.disabled : palette.buttons.bg.default
+  const prevColour = isFirstPage || disabled ? palette.buttons.fg.disabled : palette.buttons.fg.default
 
   return (
     <View style={[style.listControls, {borderColor: palette.bgColour}]}>
       <Pressable
-        disabled={isFirstPage}
+        disabled={isFirstPage || disabled}
         onPress={previousPage}
         style={[style.controlButton, {backgroundColor: prevBgColour}]}
         >
@@ -128,11 +132,12 @@ function PageControls({nextPage, page, previousPage}: PageControlsProps) : JSX.E
       <Text style={{color: palette.fgColour}}>Page: {page}</Text>
 
       <Pressable
+        disabled={disabled}
         onPress={nextPage}
-        style={[style.controlButton, style.controlNext, {backgroundColor: palette.buttons.bg.default}]}
+        style={[style.controlButton, style.controlNext, {backgroundColor: nextBgColour}]}
         >
-        <Text style={[style.controlText, {color: palette.buttons.fg.default}]}>Next</Text>
-        <Icon color={palette.buttons.fg.default} name='angle-right' size={28} />
+        <Text style={[style.controlText, {color: nextColour}]}>Next</Text>
+        <Icon color={nextColour} name='angle-right' size={28} />
       </Pressable>
     </View>
   )
@@ -192,6 +197,7 @@ export default function SubredditScreen({route} : SubredditScreenProps) : JSX.El
 
         {/* TODO need to figure out how to integrate into react-navigation's tabbar */}
         <PageControls
+          disabled={isFetching}
           nextPage={() => {
             dispatch({type: 'next', name: posts[posts.length - 1].data.name})
           }}
