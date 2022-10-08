@@ -4,7 +4,6 @@ import { useContext } from 'react'
 
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
 
-import { NavigationProp, useNavigation } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import NowContext from '@app/contexts/now'
@@ -16,7 +15,6 @@ import { htmlUnescape } from '@app/utils/text'
 import EmptyListComponent from '@components/empty-list'
 import Loading from '@components/loading'
 
-import LinkText from '@components/text/link-text'
 import UserLink from 'components/text/user-link'
 
 import { usePalette } from '@ui/palette'
@@ -26,8 +24,6 @@ const style = StyleSheet.create({
     fontSize: 16,
   },
   container: {
-    borderRadius: 8,
-    borderWidth: 1,
     paddingHorizontal: 8,
     paddingVertical: 4,
   },
@@ -141,7 +137,7 @@ function PostView({post}: PostViewProps) : JSX.Element {
   return (
     <View style={[style.titleContainer, {backgroundColor: palette.bgColour}]}>
       <Text>{post.subreddit_name_prefixed}</Text>
-      <Text style={style.title}>{post.title}</Text>
+      <Text style={style.title}>{htmlUnescape(post.title)}</Text>
       <Text>Submitted by <UserLink userName={post.author} /></Text>
     </View>
   )
@@ -176,9 +172,9 @@ export default function CommentsScreen({route}: CommentsScreenProps) : JSX.Eleme
           keyExtractor={item => item.data.id}
           onRefresh={refetch}
           refreshing={isFetching}
+          removeClippedSubviews={false}
           renderItem={({item}) => <CommentView {...item} />}
           style={style.list}
-          stickyHeaderIndices={[0]}
           />
       </NowContext.Provider>
     </BaseScreen>
