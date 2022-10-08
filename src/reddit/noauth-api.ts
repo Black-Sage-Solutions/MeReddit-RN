@@ -5,6 +5,9 @@
  */
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+import { env } from '../../app.json'
+
 import { url } from 'utils/uri/url'
 
 interface PostCommentsQueryArgs {
@@ -22,7 +25,7 @@ interface SubredditQueryArgs {
 
 export const noauthApi = createApi({
   reducerPath: 'noauthApi',
-  baseQuery: fetchBaseQuery({baseUrl: 'https://www.reddit.com/'}),
+  baseQuery: fetchBaseQuery({baseUrl: env.reddit.apiPublicUrl}),
   endpoints: (builder) => ({
     getScopes: builder.query<ScopeData[], void>({
       query: () => 'api/v1/scopes',

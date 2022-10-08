@@ -1,4 +1,11 @@
 {
+  "displayName": "MeReddIt",
+  "env": {
+    "reddit": {
+      "apiOauthUrl": "https://oauth.reddit.com",
+      "apiPublicUrl": "https://www.reddit.com",
+      "secureLoginUrl": "https://ssl.reddit.com/api/v1",
+    }
+  },
   "name": "MeReddIt",
-  "displayName": "MeReddIt"
 }

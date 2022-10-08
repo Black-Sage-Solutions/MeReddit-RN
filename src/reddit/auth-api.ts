@@ -5,6 +5,8 @@
 import { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+import { env } from '../../app.json'
+
 import { RootState } from '@app/store'
 
 /**
@@ -22,7 +24,7 @@ function prepareHeaders(headers: Headers, {getState}: Pick<BaseQueryApi, 'getSta
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://oauth.reddit.com',
+    baseUrl: env.reddit.apiOauthUrl,
     prepareHeaders,
   }),
   endpoints: (builder) => ({
