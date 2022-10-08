@@ -1,4 +1,4 @@
-import { useReducer } from 'react'
+import { useEffect, useReducer, useRef, useState } from 'react'
 
 import {
     FlatList, Pressable, StyleSheet,
@@ -80,6 +80,8 @@ type SubredditScreenProps = NativeStackScreenProps<RootStackParamList, 'Frontpag
 export default function SubredditScreen({route} : SubredditScreenProps) : JSX.Element {
   const [pageState, dispatch] = useReducer(reducerSubredditPagePosition, initialSubredditPagePosition)
 
+  const [navDir, setNavDir] = useState<'next' | 'prev' | null>(null)
+
   const {data, isFetching, isLoading, refetch} = useGetSubredditQuery({
     after: pageState.markers[pageState.markers.length - 1] || '',
     count: pageState.count,
@@ -89,7 +91,17 @@ export default function SubredditScreen({route} : SubredditScreenProps) : JSX.El
   // Is there actually a performance improvement with providing a now context for PostItem?
   const nowDate = new Date()
 
+  const postList = useRef<FlatList | null>(null)
+
   const posts: Array<{data: Post}> = data?.data?.children || []
+
+  useEffect(() => {
+    if (navDir !== null && isFetching !== true) {
+      const index = navDir == 'next' ? 0 : posts.length - 1
+      postList.current?.scrollToIndex({index})
+      setNavDir(null)
+    }
+  }, [navDir, isFetching])
 
   return (
     <BaseScreen>
@@ -122,6 +134,7 @@ export default function SubredditScreen({route} : SubredditScreenProps) : JSX.El
           data={posts}
           keyExtractor={item => item.data.id}
           onRefresh={refetch}
+          ref={postList}
           refreshing={isFetching}
           renderItem={({item}) => <PostItem {...item} />}
           style={style.list}
@@ -132,10 +145,12 @@ export default function SubredditScreen({route} : SubredditScreenProps) : JSX.El
           disabled={isFetching}
           nextPage={() => {
             dispatch({type: 'next', name: posts[posts.length - 1].data.name})
+            setNavDir('next')
           }}
           page={pageState.count / 25}
           previousPage={() => {
             dispatch({type: 'previous'})
+            setNavDir('prev')
           }}
           />
       </NowContext.Provider>
