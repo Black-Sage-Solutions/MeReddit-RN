@@ -19,9 +19,7 @@ import { usePalette } from '@ui/palette'
 
 const style = StyleSheet.create({
   container: {
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     overflow: 'hidden',
   },
   postTitle: {
@@ -58,7 +56,7 @@ export default function PostItem({data}: PostItemProps) : JSX.Element {
 
   return (
     <View style={[style.container]}>
-      <View style={{paddingLeft: 8}}>
+      <View style={{paddingRight: 8}}>
         <VoteVertical score={data?.score} />
       </View>
 
@@ -66,7 +64,7 @@ export default function PostItem({data}: PostItemProps) : JSX.Element {
         onPress={() => {
           navigate('Comments', {postId: data.id, subreddit: data.subreddit})
         }}
-        style={{flexShrink: 1, padding: 8}}
+        style={{flex: 1, padding: 8}}
         >
 
         {
