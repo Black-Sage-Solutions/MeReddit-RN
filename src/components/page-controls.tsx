@@ -46,14 +46,14 @@ export default function PageControls({disabled, nextPage, page, previousPage, st
 
   const isFirstPage = page == 1
 
-  const nextBgColour = disabled ? palette.buttons.bg.disabled : palette.buttons.bg.default
-  const nextColour = disabled ? palette.buttons.fg.disabled : palette.buttons.fg.default
+  const nextBgColour = disabled ? palette.buttons.disabled : palette.buttons.bg
+  const nextColour = disabled ? palette.text.disabled : palette.text.fg
 
-  const prevBgColour = isFirstPage || disabled ? palette.buttons.bg.disabled : palette.buttons.bg.default
-  const prevColour = isFirstPage || disabled ? palette.buttons.fg.disabled : palette.buttons.fg.default
+  const prevBgColour = isFirstPage || disabled ? palette.buttons.disabled : palette.buttons.bg
+  const prevColour = isFirstPage || disabled ? palette.text.disabled : palette.text.fg
 
   return (
-    <View style={[inStyle, style.listControls, {backgroundColor: palette.bgColour, borderColor: palette.bgColour}]}>
+    <View style={[inStyle, style.listControls, {backgroundColor: palette.bgColour, borderColor: palette.border}]}>
       <Pressable
         disabled={isFirstPage || disabled}
         onPress={previousPage}
@@ -63,7 +63,7 @@ export default function PageControls({disabled, nextPage, page, previousPage, st
         <Text style={[style.controlText, {color: prevColour}]}>Prev</Text>
       </Pressable>
 
-      <Text style={{color: palette.fgColour}}>Page: {page}</Text>
+      <Text style={{color: palette.text.fg}}>Page: {page}</Text>
 
       <Pressable
         disabled={disabled}

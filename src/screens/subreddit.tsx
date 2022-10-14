@@ -162,7 +162,7 @@ export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Ele
         <Animated.View
           style={{
             backgroundColor: palette.bgColour,
-            borderTopColor: 'darkgray',
+            borderTopColor: palette.border,
             borderTopWidth: 1,
             bottom: 0,
             left: 0,
@@ -196,7 +196,6 @@ export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Ele
             dispatch({ type: 'previous' })
             setNavDir('previous')
           }}
-          style={{borderTopColor: 'green'}}
         />
       </NowContext.Provider>
     </BaseScreen>
