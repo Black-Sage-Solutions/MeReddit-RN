@@ -33,7 +33,7 @@ export default function Vote({direction, score, style: inStyle={}}: VoteProps) :
   if (direction == 'row') {
     layout.paddingHorizontal = 4
     layout.textAlign = 'center'
-    layout.width = 28
+    layout.width = 32
   }
 
   // TODO account for Handedness (left or right hand settings)
