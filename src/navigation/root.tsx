@@ -11,7 +11,7 @@ import ProfileScreen from '@app/screens/profile'
 import SubredditScreen from '@app/screens/subreddit'
 import UserScreen from '@app/screens/user'
 
-import { usePalette } from '@ui/palette'
+import { usePalette, usePaletteToNavTheme } from '@ui/palette'
 
 export interface RootStackParamList extends ParamListBase {
   Comments:  {postId: string, subreddit: string}
@@ -46,9 +46,10 @@ const Tab = createBottomTabNavigator<RootTabParamList>()
 
 export function RootNavigation() : JSX.Element {
   const palette = usePalette()
+  const theme = usePaletteToNavTheme()
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={theme}>
       <Tab.Navigator
         initialRouteName='Reddits'
         screenOptions={{

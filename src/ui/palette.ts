@@ -1,66 +1,68 @@
 import { useMemo } from 'react'
-import { useColorScheme } from 'react-native'
+import { ColorValue, useColorScheme } from 'react-native'
+
+import { Theme } from '@react-navigation/native'
 
 type ThemeKinds = 'dark' | 'light'
 
 interface Palette {
-  bgColour: string
+  bgColour:   ColorValue
+  border:     ColorValue
   buttons: {
-    bg: {
-      accent:   string
-      default:  string
-      disabled: string
-    }
-    fg: {
-      default:  string
-      disabled: string
-    }
+    bg:       ColorValue
+    disabled: ColorValue
   }
-  downVote: string
-  fgColour: string
-  scheme:   ThemeKinds
-  upVote:   string
+  downVote:   ColorValue
+  fgColour:   ColorValue
+  primary:    ColorValue
+  scheme:     ThemeKinds
+  secondary:  ColorValue
+  text: {
+    disabled: ColorValue
+    fg:       ColorValue
+  }
+  upVote:     ColorValue
 }
 
-const common = {
+const voteIcons = {
   downVote: 'lightblue',
-  upVote: 'orange'
+  upVote: 'orange',
 }
 
 const themes: {[theme in ThemeKinds]: Palette} = {
   dark: {
-    ...common,
+    ...voteIcons,
     bgColour: 'black',
+    border: '#c7c7cc',
     buttons: {
-      bg: {
-        accent: 'blue',
-        default: '#333',
-        disabled: '#111',
-      },
-      fg: {
-        default: 'white',
-        disabled: '#999',
-      }
+      bg: '#666',
+      disabled: '#333',
     },
     fgColour: 'white',
+    primary: 'orange',
     scheme: 'dark',
+    secondary: 'red',
+    text: {
+      disabled: '#888',
+      fg: 'white',
+    },
   },
   light: {
-    ...common,
+    ...voteIcons,
     bgColour: 'white',
+    border: '#c7c7cc',
     buttons: {
-      bg: {
-        accent: 'blue',
-        default: '#ddd',
-        disabled: '#eee',
-      },
-      fg: {
-        default: 'black',
-        disabled: '#aaa',
-      }
+      bg: '#ddd',
+      disabled: '#eee',
     },
     fgColour: 'black',
+    primary: 'skyblue',
     scheme: 'light',
+    secondary: 'lightblue',
+    text: {
+      disabled: '#bbb',
+      fg: 'black',
+    },
   },
 }
 
@@ -74,4 +76,24 @@ export function usePalette() : Palette {
   const theme = useMemo<Palette>(() => themes[scheme], [scheme])
 
   return theme
+}
+
+/**
+ * [usePaletteToNavTheme description]
+ * @return {Theme} [description]
+ */
+export function usePaletteToNavTheme() : Theme {
+  const palette = usePalette()
+
+  return {
+    dark: palette.scheme == 'dark',
+    colors: {
+      primary:      palette.primary as string,
+      background:   palette.bgColour as string,
+      card:         palette.bgColour as string,
+      text:         palette.text.fg as string,
+      border:       palette.border as string,
+      notification: palette.secondary as string,
+    },
+  }
 }
