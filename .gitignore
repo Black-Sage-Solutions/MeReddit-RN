@@ -32,6 +32,10 @@ local.properties
 *.hprof
 .cxx/
 
+# Sublime Text
+#
+*.sublime-workspace
+
 # node.js
 #
 node_modules/
