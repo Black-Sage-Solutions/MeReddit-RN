@@ -174,7 +174,7 @@ export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Ele
               {
                 translateY: headerSize.interpolate({
                   inputRange: [224, 280],
-                  outputRange: [8, -46],
+                  outputRange: [8, -47],
                   extrapolate: 'clamp',
                 })
               }
