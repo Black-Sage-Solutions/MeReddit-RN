@@ -1,9 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 
-import {
-    FlatList, Pressable, StyleSheet,
-    Text, View
-} from 'react-native'
+import { Animated, FlatList, StyleSheet, View } from 'react-native'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -23,15 +20,14 @@ import Loading from '@components/loading'
 
 import PageControls from '@components/page-controls'
 
+import TitleBar from '@components/title-bar'
+import { usePalette } from 'ui/palette'
+
+const PAGE_AMOUNT = 25
+
 const style = StyleSheet.create({
   list: {
-    marginHorizontal: 8,
-  },
-  mainControls: {
-    flexDirection: 'row',
-    height: 48,
-    justifyContent: 'space-between',
-    padding: 8,
+    // marginHorizontal: 8,
   },
   separator: {
     height: 12,
@@ -41,34 +37,35 @@ const style = StyleSheet.create({
   },
 })
 
+type PageDirection = 'next' | 'previous'
+
 interface SubredditPagePositionState {
   markers: string[]  // are comment ids that are used in the reddit api
-  count:   number
+  count: number
 }
 
 interface SubredditPagePositionAction {
   name?: string
-  type:  'next' | 'previous'
+  type: PageDirection
 }
 
 const initialSubredditPagePosition: SubredditPagePositionState = {
   markers: [],
-  count:   25,
+  count: 25,
 }
 
-function reducerSubredditPagePosition(state: SubredditPagePositionState, action: SubredditPagePositionAction) : SubredditPagePositionState {
-  const amount = 25
-  switch(action.type) {
+function reducerSubredditPagePosition(state: SubredditPagePositionState, action: SubredditPagePositionAction): SubredditPagePositionState {
+  switch (action.type) {
     case 'next':
       return {
         markers: action.name ? [...state.markers, action.name] : [...state.markers],
-        count:   state.count + amount,
+        count: state.count + PAGE_AMOUNT,
       }
     case 'previous':
       state.markers.pop()
       return {
         markers: [...state.markers],
-        count:   Math.max(state.count - amount, amount),
+        count: Math.max(state.count - PAGE_AMOUNT, PAGE_AMOUNT),
       }
     default:
       throw new Error(`Bad action: ${action.type}`)
@@ -77,28 +74,32 @@ function reducerSubredditPagePosition(state: SubredditPagePositionState, action:
 
 type SubredditScreenProps = NativeStackScreenProps<RootStackParamList, 'Frontpage' | 'Subreddit'>
 
-export default function SubredditScreen({route} : SubredditScreenProps) : JSX.Element {
+export default function SubredditScreen({route}: SubredditScreenProps): JSX.Element {
+  const palette = usePalette()
+
   const [pageState, dispatch] = useReducer(reducerSubredditPagePosition, initialSubredditPagePosition)
 
-  const [navDir, setNavDir] = useState<'next' | 'prev' | null>(null)
-
-  const {data, isFetching, isLoading, refetch} = useGetSubredditQuery({
+  const { data, isFetching, isLoading, refetch } = useGetSubredditQuery({
     after: pageState.markers[pageState.markers.length - 1] || '',
     count: pageState.count,
     subreddit: route?.params?.subreddit,
   })
 
+  const headerSize = useRef<Animated.Value>(new Animated.Value(0)).current
+
   // Is there actually a performance improvement with providing a now context for PostItem?
   const nowDate = new Date()
 
+  const posts: Array<{ data: Post }> = data?.data?.children || []
+
+  const [navDir, setNavDir] = useState<PageDirection | null>(null)
+
   const postList = useRef<FlatList | null>(null)
-
-  const posts: Array<{data: Post}> = data?.data?.children || []
-
+  // Scrolls the post lists after the content has finished fetching
   useEffect(() => {
     if (navDir !== null && isFetching !== true) {
       const index = navDir == 'next' ? 0 : posts.length - 1
-      postList.current?.scrollToIndex({index})
+      postList.current?.scrollToIndex({ index })
       setNavDir(null)
     }
   }, [navDir, isFetching])
@@ -106,53 +107,97 @@ export default function SubredditScreen({route} : SubredditScreenProps) : JSX.El
   return (
     <BaseScreen>
       <NowContext.Provider value={nowDate}>
-        <View style={{alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', padding: 8}}>
-          <Pressable>
-            <Text style={style.title}>
-              {
-                (route.params?.subreddit) ? `r/${route.params.subreddit}` : 'MeReddit'
-              }
-            </Text>
-          </Pressable>
-
-          <Pressable
-            style={{
-              alignItems: 'center',
-              height: 32,
-              justifyContent: 'center',
-              width: 32,
-            }}
+        <Animated.FlatList
+          ListFooterComponent={() => <View style={{height: 46 + 12}} />}
+          ListHeaderComponent={() => 
+            <Animated.View
+              style={{
+                // alignContent: 'center',
+                // alignItems: 'center',
+                flex: 1,
+                // flexDirection: 'row',
+                height: 256,
+                justifyContent: 'center',
+                padding: 8,
+                transform: [
+                  {
+                    translateY: headerSize.interpolate({
+                      inputRange: [0, 224],
+                      outputRange: [0, 100],
+                      extrapolate: 'clamp',
+                    })
+                  }
+                ]
+              }}
             >
-            <Icon name='ellipsis-v' size={20} />
-          </Pressable>
-        </View>
-
-        {/* TODO scroll to the ends when going to the next or previous page */}
-        <FlatList
+              <TitleBar subreddit={route?.params?.subreddit} />
+            </Animated.View>
+          }
           ItemSeparatorComponent={() => <View style={style.separator} />}
           ListEmptyComponent={() => (isLoading) ? <Loading /> : <EmptyListComponent />}
           data={posts}
           keyExtractor={item => item.data.id}
           onRefresh={refetch}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {
+                    y: headerSize
+                  }
+                }
+              }
+            ],
+            {
+              useNativeDriver: true
+            }
+          )}
+          scrollEventThrottle={32} // TODO how does the results look on 60hz+ screen?
           ref={postList}
           refreshing={isFetching}
-          renderItem={({item}) => <PostItem {...item} />}
+          renderItem={({ item }) => <PostItem {...item} />}
           style={style.list}
-          />
+        />
+
+        <Animated.View
+          style={{
+            backgroundColor: palette.bgColour,
+            borderTopColor: 'darkgray',
+            borderTopWidth: 1,
+            bottom: 0,
+            left: 0,
+            padding: 8,
+            position: 'absolute',
+            // opacity: 0.8,
+            right: 0,
+            transform: [
+              {
+                translateY: headerSize.interpolate({
+                  inputRange: [224, 280],
+                  outputRange: [8, -46],
+                  extrapolate: 'clamp',
+                })
+              }
+            ],
+          }}
+        >
+          <TitleBar subreddit={route?.params?.subreddit} />
+        </Animated.View>
 
         {/* TODO need to figure out how to integrate into react-navigation's tabbar */}
         <PageControls
           disabled={isFetching}
           nextPage={() => {
-            dispatch({type: 'next', name: posts[posts.length - 1].data.name})
+            dispatch({ type: 'next', name: posts[posts.length - 1].data.name })
             setNavDir('next')
           }}
-          page={pageState.count / 25}
+          page={pageState.count / PAGE_AMOUNT}
           previousPage={() => {
-            dispatch({type: 'previous'})
-            setNavDir('prev')
+            dispatch({ type: 'previous' })
+            setNavDir('previous')
           }}
-          />
+          style={{borderTopColor: 'green'}}
+        />
       </NowContext.Provider>
     </BaseScreen>
   )
