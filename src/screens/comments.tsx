@@ -17,6 +17,8 @@ import Loading from '@components/loading'
 
 import UserLink from 'components/text/user-link'
 
+import Vote from '@components/vote'
+
 import { usePalette } from '@ui/palette'
 
 const style = StyleSheet.create({
@@ -68,7 +70,11 @@ function CommentView({data} : {data: Comment}) : JSX.Element {
 
   return (
     <View style={[style.container, {borderColor: palette.fgColour}]}>
-      <Text><UserLink userName={data.author} /> {data.score} points {timeSubmittedAgo}</Text>
+      <View style={{alignItems: 'flex-start'}}>
+        <Text><UserLink userName={data.author} /> {timeSubmittedAgo}</Text>
+        <Vote direction="row" score={data?.score} style={{}} />
+      </View>
+      
       <Text
         selectable={true}
         style={style.commentBody}

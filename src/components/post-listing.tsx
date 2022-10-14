@@ -10,12 +10,11 @@ import { RootStackParamList } from '@app/navigation/root'
 
 import NowContext from '@contexts/now'
 
-import VoteVertical from '@components/vote-vertical'
+import Vote from '@components/vote'
 
 import SubredditLink from '@components/text/subreddit-link'
-import UserLink from '@components/text/user-link'
 
-import { usePalette } from '@ui/palette'
+import UserLink from '@components/text/user-link'
 
 const style = StyleSheet.create({
   container: {
@@ -45,7 +44,6 @@ interface PostItemProps {
 }
 
 export default function PostItem({data}: PostItemProps) : JSX.Element {
-  const palette = usePalette()
   const {navigate} = useNavigation<NavigationProp<RootStackParamList>>()
 
   const route = useRoute()
@@ -56,16 +54,14 @@ export default function PostItem({data}: PostItemProps) : JSX.Element {
 
   return (
     <View style={[style.container]}>
-      <View style={{paddingRight: 8}}>
-        <VoteVertical score={data?.score} />
-      </View>
+      <Vote direction="column" score={data?.score} style={{paddingHorizontal: 4, alignSelf: 'center'}} />
 
       <Pressable
         onPress={() => {
           navigate('Comments', {postId: data.id, subreddit: data.subreddit})
         }}
-        style={{flex: 1, padding: 8}}
-        >
+        style={{flex: 1, padding: 8}} // TODO use spacing config
+      >
 
         {
           route.name == 'Frontpage' ? (
