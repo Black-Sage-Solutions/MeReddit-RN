@@ -126,7 +126,7 @@ function PostPreview({post}: PostPreviewProps) : JSX.Element {
               width: img.width
             }}
             style={style.imagePreview}
-            />
+          />
         ) : null
       }
     </>
@@ -181,7 +181,7 @@ export default function CommentsScreen({route}: CommentsScreenProps) : JSX.Eleme
           removeClippedSubviews={false}
           renderItem={({item}) => <CommentView {...item} />}
           style={style.list}
-          />
+        />
       </NowContext.Provider>
     </BaseScreen>
   )

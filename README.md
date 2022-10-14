@@ -25,6 +25,7 @@ For UI toolkits, in-house component style is the standard and no additional depe
 ## Typescript
 
 ### To Semicolon or Not to Semicolon?
+Only when necessary, meaning when the Typescript has a problem ***without*** a `;` character, then should use one. Otherwise, without is the default.
 
 ### Interface or Type Alias
 *`type`*s are generally defined for a property or a primitive in business logic or when a type needs to be expressed with Typescript's type expressions, for example:
@@ -48,4 +49,38 @@ interface CoolThingProps {
 function CoolThing({incoming}: CoolThingProps) : JSX.Element {
   // ...
 }
+```
+
+### JSX
+For formatting JSX, general rule is try to keep the indent for parent components in the same column for the tag (`<`, `>`) characters.
+
+Components can be kept on a single line, but should be split up if its longer than 80 characters or it makes more sense to visually see the structure.
+
+Children/sibling components should have an empty line between.
+
+```tsx
+<Text style={{}}>Hi</Text>
+
+<View><Text>Hey <UserLink userName="me" /></Text></View>
+
+<FlatList
+  ListEmptyComponent={...}
+  data={[]}
+/>
+
+<View
+  style={{
+    width: 100
+  }}
+>
+  <Text>Hello there!</Text>
+</View>
+
+<View>
+  <Text>How</Text>
+
+  <Text>are</Text>
+
+  <Text>you?</Text>
+</View>
 ```

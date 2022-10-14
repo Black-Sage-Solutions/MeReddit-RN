@@ -91,7 +91,7 @@ export default function App() {
           <StatusBar 
             backgroundColor={palette.bgColour}
             barStyle={palette.scheme == 'dark' ? 'default' : 'dark-content'}
-            />
+          />
 
           <RootNavigation />
         </SafeAreaProvider>

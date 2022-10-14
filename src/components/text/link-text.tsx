@@ -10,7 +10,7 @@ export default function LinkText({children, style, ...props} : TextProps) : JSX.
     <Text
       {...props}
       style={[style, {textDecorationLine: 'underline'}]}
-      >
+    >
       {children}
     </Text>
   )

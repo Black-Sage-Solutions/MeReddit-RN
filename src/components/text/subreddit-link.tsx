@@ -16,7 +16,7 @@ export default function SubredditLink({subreddit}: SubredditLinkProps) : JSX.Ele
       onPress={() => {
         navigate('Subreddit', {subreddit})
       }}
-      >
+    >
       r/{subreddit}
     </LinkText>
   )
