@@ -1,8 +1,8 @@
-import { isEmpty } from "utils/misc";
-import { formUrlEncode } from "./encode";
+import { isEmpty } from "utils/misc"
+import { formUrlEncode } from "./encode"
 
 interface UrlParams extends Url {
-  delimiter?: string;
+  delimiter?: string
 }
 
 /**
@@ -13,35 +13,35 @@ interface UrlParams extends Url {
  * @return {string}
  */
 function url(incoming: UrlParams) : string {
-  const {base, delimiter, fragment, host, path, query, scheme} = incoming;
+  const {base, delimiter, fragment, host, path, query, scheme} = incoming
 
-  let output = '';
+  let output = ''
 
   if (base) {
-    output += base;
+    output += base
   }
 
   if (scheme) {
-    output += `${scheme}://`;
+    output += `${scheme}://`
   }
 
   if (host) {
-    output += host;
+    output += host
   }
 
   if (path) {
-    output += `/${path}`;
+    output += `/${path}`
   }
 
   if (!isEmpty(query)) {
-    output += `?${formUrlEncode({params: query, delimiter})}`;
+    output += `?${formUrlEncode({params: query, delimiter})}`
   }
 
   if (!isEmpty(fragment)) {
-    output += `#${formUrlEncode({params: fragment, delimiter})}`;
+    output += `#${formUrlEncode({params: fragment, delimiter})}`
   }
 
-  return output;
+  return output
 }
 
-export { url };
+export { url }

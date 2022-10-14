@@ -6,17 +6,17 @@
  * @return {string}
  */
 function formUrlEncode({params, delimiter=';'}: FormUrlEncodeObject) : string {
-  let items;
+  let items
 
   if (Array.isArray(params)) {
-    items = params;
+    items = params
   } else {
-    items = Object.entries(params);
+    items = Object.entries(params)
   }
 
   return items
     .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-    .join(delimiter);
+    .join(delimiter)
 }
 
-export { formUrlEncode };
+export { formUrlEncode }

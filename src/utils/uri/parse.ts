@@ -44,10 +44,11 @@ function parse(incoming: string) : Uri {
 
   // A bit inefficent, could find the first instance and do a splice instead
   [host='', ...pathItems] = head.split('/');
-  path = pathItems.join('/');
 
-  const queryItems = listUriArgs(query);
-  const fragmentItems = listUriArgs(fragment);
+  path = pathItems.join('/')
+
+  const queryItems = listUriArgs(query)
+  const fragmentItems = listUriArgs(fragment)
 
   return {
     fragment: fragmentItems,
@@ -55,7 +56,7 @@ function parse(incoming: string) : Uri {
     path,
     query: queryItems,
     scheme,
-  };
+  }
 }
 
 /**
