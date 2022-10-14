@@ -38,6 +38,6 @@ export default function ScopesList() {
       data={data || []}
       keyExtractor={item => item.id}
       renderItem={ScopeItem}
-      />
+    />
   )
 }

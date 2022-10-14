@@ -28,7 +28,7 @@ function RedditsStackScreen() {
       initialRouteName='Frontpage'
       // TODO figure out what would be best for the header
       screenOptions={{ headerShown: false }}
-      >
+    >
       <RedditsStack.Screen name='Comments'  component={CommentsScreen} />
       <RedditsStack.Screen name='Frontpage' component={SubredditScreen} />
       <RedditsStack.Screen name='Subreddit' component={SubredditScreen} />
@@ -61,28 +61,28 @@ export function RootNavigation() : JSX.Element {
             backgroundColor: palette.bgColour,
           },
         }}
-        >
+      >
         <Tab.Screen
           name='Reddits'
           component={RedditsStackScreen}
           options={{
             tabBarIcon: ({color, size}) => <Icon color={color} name='reddit-alien' size={size} />,
           }}
-          />
+        />
         <Tab.Screen
           name='Search'
           component={SearchComponent}
           options={{
             tabBarIcon: ({color, size}) => <Icon color={color} name='search' size={size} />,
           }}
-          />
+        />
         <Tab.Screen
           name='Profile'
           component={ProfileScreen}
           options={{
             tabBarIcon: ({color, size}) => <Icon color={color} name='user' size={size} />
           }}
-          />
+        />
       </Tab.Navigator>
     </NavigationContainer>
   )

@@ -16,7 +16,7 @@ export default function UserLink({userName}: UserLinkProps) : JSX.Element {
       onPress={() => {
         navigate('User', {userName})}
       }
-      >
+    >
       u/{userName}
     </LinkText>
   )
