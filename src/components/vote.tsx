@@ -9,7 +9,7 @@ import { usePalette } from '@ui/palette'
  * @param  {number} score
  * @return {string}
  */
-function shorthandScore(score: number): string {
+function shorthandScore(score: number) : string {
   if (!score) return '*'
   if (score > 1000) return `${Math.round(score / 1000)} K`
   return `${score}`
@@ -21,7 +21,7 @@ interface VoteProps {
   style?:    ViewStyle
 }
 
-export default function Vote({direction, score, style: inStyle={}} : VoteProps) {
+export default function Vote({direction, score, style: inStyle={}}: VoteProps) : JSX.Element {
   const palette = usePalette()
 
   const layout : TextStyle = {}

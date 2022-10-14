@@ -7,11 +7,11 @@ const style = StyleSheet.create({
 })
 
 interface TitleBarProps {
-  style?: PressableProps
+  style?:     PressableProps
   subreddit?: string | null | undefined
 }
 
-function TitleBar({style: inStyle={}, subreddit=null} : TitleBarProps) : JSX.Element {
+function TitleBar({style: inStyle={}, subreddit=null}: TitleBarProps) : JSX.Element {
   return (
     <Pressable style={inStyle}>
       <Text style={style.title}>

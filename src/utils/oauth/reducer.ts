@@ -4,7 +4,7 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export type OAuthState = {
+export interface OAuthState {
   accessToken:  string
   error:        string | null
   expires:      number | null  // change to date?
@@ -21,7 +21,7 @@ const initialState: OAuthState = {
   tokenType:    null,
 }
 
-export type UpdateToken = {
+export interface UpdateToken {
   accessToken:   string
   expires:       number
   refreshToken?: string

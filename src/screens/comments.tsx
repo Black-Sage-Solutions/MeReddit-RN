@@ -61,7 +61,7 @@ interface Comment {
   score:   number
 }
 
-function CommentView({data} : {data: Comment}) : JSX.Element {
+function CommentView({data}: {data: Comment}) : JSX.Element {
   const palette = usePalette()
 
   const now = useContext(NowContext)

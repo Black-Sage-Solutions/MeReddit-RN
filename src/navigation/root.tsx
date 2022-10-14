@@ -22,7 +22,7 @@ export interface RootStackParamList extends ParamListBase {
 
 const RedditsStack = createNativeStackNavigator<RootStackParamList>()
 
-function RedditsStackScreen() {
+function RedditsStackScreen() : JSX.Element {
   return (
     <RedditsStack.Navigator
       initialRouteName='Frontpage'

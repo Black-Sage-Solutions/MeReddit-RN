@@ -27,6 +27,20 @@ For UI toolkits, in-house component style is the standard and no additional depe
 ### To Semicolon or Not to Semicolon?
 Only when necessary, meaning when the Typescript has a problem ***without*** a `;` character, then should use one. Otherwise, without is the default.
 
+### Explicit Typing
+Function arguments should suffix the `:` character on the argument name.
+
+```ts
+function test(hello: string) {}
+function testing({hi: string, there: incomingThere=null}: TestingArgs) {}
+````
+
+Function return types should have the `:` spaced between the function parameters and the return type.
+
+```ts
+function reTest() : string {}
+```
+
 ### Interface or Type Alias
 *`type`*s are generally defined for a property or a primitive in business logic or when a type needs to be expressed with Typescript's type expressions, for example:
 

@@ -41,12 +41,12 @@ type PageDirection = 'next' | 'previous'
 
 interface SubredditPagePositionState {
   markers: string[]  // are comment ids that are used in the reddit api
-  count: number
+  count:   number
 }
 
 interface SubredditPagePositionAction {
   name?: string
-  type: PageDirection
+  type:  PageDirection
 }
 
 const initialSubredditPagePosition: SubredditPagePositionState = {
@@ -54,7 +54,7 @@ const initialSubredditPagePosition: SubredditPagePositionState = {
   count: 25,
 }
 
-function reducerSubredditPagePosition(state: SubredditPagePositionState, action: SubredditPagePositionAction): SubredditPagePositionState {
+function reducerSubredditPagePosition(state: SubredditPagePositionState, action: SubredditPagePositionAction) : SubredditPagePositionState {
   switch (action.type) {
     case 'next':
       return {
@@ -74,7 +74,7 @@ function reducerSubredditPagePosition(state: SubredditPagePositionState, action:
 
 type SubredditScreenProps = NativeStackScreenProps<RootStackParamList, 'Frontpage' | 'Subreddit'>
 
-export default function SubredditScreen({route}: SubredditScreenProps): JSX.Element {
+export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Element {
   const palette = usePalette()
 
   const [pageState, dispatch] = useReducer(reducerSubredditPagePosition, initialSubredditPagePosition)

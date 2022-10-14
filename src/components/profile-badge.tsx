@@ -9,7 +9,7 @@ const style = StyleSheet.create({
   }
 })
 
-export default function ProfileBadge() {
+export default function ProfileBadge() : JSX.Element {
   const open = () => {
     console.log('wtf')
   }

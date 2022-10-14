@@ -38,7 +38,7 @@ interface PageControlsProps {
   nextPage:     (event: TouchEvent) => void
   page:         number
   previousPage: (event: TouchEvent) => void
-  style?:     ViewStyle
+  style?:       ViewStyle
 }
 
 export default function PageControls({disabled, nextPage, page, previousPage, style: inStyle={}}: PageControlsProps) : JSX.Element {
