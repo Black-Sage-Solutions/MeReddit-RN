@@ -35,7 +35,7 @@ interface IntentMap {
   [key: string]: Function
 }
 
-function delegateIntent({url} : {url: string}) {
+function delegateIntent({url}: {url: string}) {
   const routes: IntentMap = {
     'oauth2redirect': handleRedirect,
     'reddit.com':     () => {},

@@ -15,7 +15,7 @@ import { RootState } from '@app/store'
  * @param  {Pick<BaseQueryApi, 'getState'>} {getState}  [description]
  * @return {Headers}                             [description]
  */
-function prepareHeaders(headers: Headers, {getState}: Pick<BaseQueryApi, 'getState'>): Headers {
+function prepareHeaders(headers: Headers, {getState}: Pick<BaseQueryApi, 'getState'>) : Headers {
   const {accessToken, tokenType} = (getState() as RootState).oauth
   headers.set('Authorization', `${tokenType} ${accessToken}`)
   return headers

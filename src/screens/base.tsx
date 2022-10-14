@@ -16,11 +16,11 @@ const style = StyleSheet.create({
   },
 })
 
-type BaseScreenProps = {
-  children?: ReactNode,
+interface BaseScreenProps {
+  children?: ReactNode
 }
 
-export default function BaseScreen({children} : BaseScreenProps) : JSX.Element {
+export default function BaseScreen({children}: BaseScreenProps) : JSX.Element {
   const isDarkMode = useColorScheme() === 'dark'
 
   const bgColour = {

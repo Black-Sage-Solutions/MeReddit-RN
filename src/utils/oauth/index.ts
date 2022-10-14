@@ -16,7 +16,7 @@ const redirectUri = ''
 /**
  * [requestAuth description]
  */
-function startAuthRequest() : void {
+function startAuthRequest() {
 	// TODO: Move client id and redirect_uri into secure location
   //       Also make scope configurable?
   const params = {
@@ -37,7 +37,7 @@ function startAuthRequest() : void {
  * [handleRedirect description]
  * @param {Uri} url [description]
  */
-function handleRedirect(url: Url) : void {
+function handleRedirect(url: Url) {
   if (url.query.has('error')) {
     console.warn('An error occured:', url.query.get('error'))
     return
@@ -46,11 +46,11 @@ function handleRedirect(url: Url) : void {
   accessToken(url.query.get('code') as string)
 }
 
-type RedditTokenResponse = {
-  access_token: string,
-  expires_in:   number,
-  scope:        string,
-  token_type:   'bearer',
+interface RedditTokenResponse {
+  access_token: string
+  expires_in:   number
+  scope:        string
+  token_type:   'bearer'
 }
 
 type RedditAccessTokenResponse = RedditTokenResponse & {
@@ -130,7 +130,7 @@ async function refreshToken() : Promise<void> {
 /**
  * [revokeToken description]
  */
-function revokeToken() : void {
+function revokeToken() {
   console.log('TODO: revoke token flow')
   dispatch(clear())
 }
@@ -153,7 +153,7 @@ class OAuthResponseError extends Error {
  * [checkTokenResponse description]
  * @param {any} data [description]
  */
-function checkTokenResponse(data: any) : void {
+function checkTokenResponse(data: any) {
   if (data?.error) {
     throw new OAuthResponseError(data.error)
   }
@@ -163,7 +163,7 @@ function checkTokenResponse(data: any) : void {
  * [catchTokenResponse description]
  * @param {Error} error [description]
  */
-function catchTokenResponse(error: Error) : void {
+function catchTokenResponse(error: Error) {
   if (error instanceof OAuthResponseError) {
     dispatch(updateError(error.message))
   } else {

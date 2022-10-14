@@ -18,10 +18,11 @@ const style = StyleSheet.create({
   }
 })
 
+interface FlatListItemProps {
+  item: ScopeData
+}
 
-type FlatListItemProps = {item: ScopeData}
-
-const ScopeItem = ({item} : FlatListItemProps) => {
+function ScopeItem({item} : FlatListItemProps) : JSX.Element {
   return (
     <View style={style.itemContainer}>
       <Text style={style.itemTitle}>{item.name} ({item.id})</Text>
@@ -30,7 +31,7 @@ const ScopeItem = ({item} : FlatListItemProps) => {
   )
 }
 
-export default function ScopesList() {
+export default function ScopesList() : JSX.Element {
   const { data, error, isLoading }  = useGetScopesQuery() 
 
 	return (
