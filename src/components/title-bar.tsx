@@ -1,10 +1,4 @@
-import { Pressable, PressableProps, StyleSheet, Text, TextStyle } from 'react-native'
-
-const style = StyleSheet.create({
-  title: {
-    fontSize: 28
-  }
-})
+import { Pressable, PressableProps, Text, TextStyle } from 'react-native'
 
 interface TitleBarProps {
   style?:     PressableProps
@@ -12,10 +6,10 @@ interface TitleBarProps {
   textStyle?: TextStyle
 }
 
-function TitleBar({style: inStyle={}, textStyle: inTextStyle={}, subreddit=null}: TitleBarProps) : JSX.Element {
+export default function TitleBar({style: inStyle={}, textStyle: inTextStyle={}, subreddit=null}: TitleBarProps) : JSX.Element {
   return (
     <Pressable style={inStyle}>
-      <Text style={[style.title, inTextStyle]}>
+      <Text style={[{fontSize: 28}, inTextStyle]}>
         {
           subreddit ? `r/${subreddit}` : 'MeReddit'
         }
@@ -23,5 +17,3 @@ function TitleBar({style: inStyle={}, textStyle: inTextStyle={}, subreddit=null}
     </Pressable>
   )
 }
-
-export default TitleBar
