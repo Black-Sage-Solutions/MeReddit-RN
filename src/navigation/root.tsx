@@ -8,8 +8,10 @@ import ProfileScreen from '@app/screens/profile'
 import SearchComponent from '@components/search'
 
 import { usePalette, usePaletteToNavTheme } from '@ui/palette'
+import { useTypography } from '@ui/typography'
 
 import { RedditsStackScreen } from './reddits'
+
 
 interface RootTabParamList extends ParamListBase {
   Reddits: undefined
@@ -20,6 +22,7 @@ const Tab = createBottomTabNavigator<RootTabParamList>()
 
 export function RootNavigation() : JSX.Element {
   const palette = usePalette()
+  const tgraphy = useTypography()
   const theme = usePaletteToNavTheme()
 
   return (
@@ -30,7 +33,7 @@ export function RootNavigation() : JSX.Element {
           headerShown: false,
           tabBarHideOnKeyboard: true,
           tabBarLabelStyle: {
-            fontSize: 12,
+            fontSize: tgraphy.label.size,
           },
           tabBarStyle: {
             backgroundColor: palette.bgColour,

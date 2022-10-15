@@ -20,11 +20,9 @@ import UserLink from 'components/text/user-link'
 import Vote from '@components/vote'
 
 import { usePalette } from '@ui/palette'
+import { useTypography } from '@ui/typography'
 
 const style = StyleSheet.create({
-  commentBody: {
-    fontSize: 16,
-  },
   container: {
     paddingHorizontal: 8,
     paddingVertical: 4,
@@ -38,9 +36,6 @@ const style = StyleSheet.create({
   },
   separator: {
     height: 12,
-  },
-  title: {
-    fontSize: 24,
   },
   titleContainer: {
     marginHorizontal: 8+8,
@@ -63,7 +58,7 @@ interface Comment {
 
 function CommentView({data}: {data: Comment}) : JSX.Element {
   const palette = usePalette()
-
+  const tgraphy = useTypography()
   const now = useContext(NowContext)
 
   const timeSubmittedAgo = formatDistance(fromUnixTime(data.created), now, {addSuffix: true})
@@ -77,7 +72,7 @@ function CommentView({data}: {data: Comment}) : JSX.Element {
       
       <Text
         selectable={true}
-        style={style.commentBody}
+        style={{fontSize: tgraphy.body.size}}
         >
         {htmlUnescape(data.body)}
       </Text>
@@ -139,11 +134,12 @@ interface PostViewProps {
 
 function PostView({post}: PostViewProps) : JSX.Element {
   const palette = usePalette()
+  const tgraphy = useTypography()
 
   return (
     <View style={[style.titleContainer, {backgroundColor: palette.bgColour}]}>
       <Text>{post.subreddit_name_prefixed}</Text>
-      <Text style={style.title}>{htmlUnescape(post.title)}</Text>
+      <Text style={{fontSize: tgraphy.header2.size}}>{htmlUnescape(post.title)}</Text>
       <Text>Submitted by <UserLink userName={post.author} /></Text>
     </View>
   )

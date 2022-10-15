@@ -3,6 +3,7 @@ import { Pressable, Text, TextStyle, View, ViewStyle } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import { usePalette } from '@ui/palette'
+import { useTypography } from '@ui/typography'
 
 /**
  * [shorthandScore description]
@@ -23,6 +24,7 @@ interface VoteProps {
 
 export default function Vote({direction, score, style: inStyle={}}: VoteProps) : JSX.Element {
   const palette = usePalette()
+  const tgraphy = useTypography()
 
   const layout : TextStyle = {}
 
@@ -57,7 +59,7 @@ export default function Vote({direction, score, style: inStyle={}}: VoteProps) :
       <Text
         style={{
           alignSelf: 'center',
-          fontSize: 10,
+          fontSize: tgraphy.sub.size,
           ...layout,
         }}
       >

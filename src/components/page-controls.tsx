@@ -6,6 +6,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import { usePalette } from '@ui/palette'
+import { useTypography } from 'ui/typography'
 
 const style = StyleSheet.create({
   controlButton: {
@@ -17,15 +18,10 @@ const style = StyleSheet.create({
   controlNext: {
     justifyContent: 'flex-end',
   },
-  controlText: {
-    fontSize: 10,
-    paddingHorizontal: 8,
-  },
   listControls: {
     borderTopWidth: 0.5,
     alignItems: 'center',
     flexDirection: 'row',
-    // height: 48,
     justifyContent: 'space-between',
     padding: 8,
     textAlign: 'center',
@@ -42,6 +38,7 @@ interface PageControlsProps {
 
 export default function PageControls({disabled, nextPage, page, previousPage, style: inStyle={}}: PageControlsProps) : JSX.Element {
   const palette = usePalette()
+  const tgraphy = useTypography()
 
   const isFirstPage = page == 1
 
@@ -50,6 +47,11 @@ export default function PageControls({disabled, nextPage, page, previousPage, st
 
   const prevBgColour = isFirstPage || disabled ? palette.buttons.disabled : palette.buttons.bg
   const prevColour = isFirstPage || disabled ? palette.text.disabled : palette.text.fg
+
+  const controlTextStyle = {
+    fontSize: tgraphy.sub.size,
+    paddingHorizontal: 8
+  }
 
   return (
     <View
@@ -68,7 +70,7 @@ export default function PageControls({disabled, nextPage, page, previousPage, st
         style={[style.controlButton, {backgroundColor: prevBgColour}]}
       >
         <Icon color={prevColour} name='angle-left' size={24} />
-        <Text style={[style.controlText, {color: prevColour}]}>Prev</Text>
+        <Text style={[controlTextStyle, {color: prevColour}]}>Prev</Text>
       </Pressable>
 
       <Text style={{color: palette.text.fg}}>Page: {page}</Text>
@@ -78,7 +80,7 @@ export default function PageControls({disabled, nextPage, page, previousPage, st
         onPress={nextPage}
         style={[style.controlButton, style.controlNext, {backgroundColor: nextBgColour}]}
       >
-        <Text style={[style.controlText, {color: nextColour}]}>Next</Text>
+        <Text style={[controlTextStyle, {color: nextColour}]}>Next</Text>
         <Icon color={nextColour} name='angle-right' size={24} />
       </Pressable>
     </View>
