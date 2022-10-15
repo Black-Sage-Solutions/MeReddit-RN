@@ -22,8 +22,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 8,
   },
   listControls: {
-    borderColor: '#666',
-    borderTopWidth: 1,
+    borderTopWidth: 0.5,
     alignItems: 'center',
     flexDirection: 'row',
     // height: 48,
@@ -53,13 +52,22 @@ export default function PageControls({disabled, nextPage, page, previousPage, st
   const prevColour = isFirstPage || disabled ? palette.text.disabled : palette.text.fg
 
   return (
-    <View style={[inStyle, style.listControls, {backgroundColor: palette.bgColour, borderColor: palette.border}]}>
+    <View
+      style={[
+        inStyle,
+        style.listControls,
+        {
+          backgroundColor: palette.bgColour,
+          borderColor: palette.border
+        }
+      ]}
+    >
       <Pressable
         disabled={isFirstPage || disabled}
         onPress={previousPage}
         style={[style.controlButton, {backgroundColor: prevBgColour}]}
       >
-        <Icon color={prevColour} name='angle-left' size={28} />
+        <Icon color={prevColour} name='angle-left' size={24} />
         <Text style={[style.controlText, {color: prevColour}]}>Prev</Text>
       </Pressable>
 
@@ -71,7 +79,7 @@ export default function PageControls({disabled, nextPage, page, previousPage, st
         style={[style.controlButton, style.controlNext, {backgroundColor: nextBgColour}]}
       >
         <Text style={[style.controlText, {color: nextColour}]}>Next</Text>
-        <Icon color={nextColour} name='angle-right' size={28} />
+        <Icon color={nextColour} name='angle-right' size={24} />
       </Pressable>
     </View>
   )

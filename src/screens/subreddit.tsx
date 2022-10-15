@@ -152,7 +152,7 @@ export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Ele
               useNativeDriver: true
             }
           )}
-          scrollEventThrottle={32} // TODO how does the results look on 60hz+ screen?
+          scrollEventThrottle={128} // TODO how does the results look on 60hz+ screen?
           ref={postList}
           refreshing={isFetching}
           renderItem={({ item }) => <PostItem {...item} />}
@@ -163,25 +163,24 @@ export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Ele
           style={{
             backgroundColor: palette.bgColour,
             borderTopColor: palette.border,
-            borderTopWidth: 1,
+            borderTopWidth: 0.5,
             bottom: 0,
             left: 0,
             padding: 8,
             position: 'absolute',
-            // opacity: 0.8,
             right: 0,
             transform: [
               {
                 translateY: headerSize.interpolate({
                   inputRange: [224, 280],
-                  outputRange: [8, -47],
+                  outputRange: [8, -42],
                   extrapolate: 'clamp',
                 })
               }
             ],
           }}
         >
-          <TitleBar subreddit={route?.params?.subreddit} />
+          <TitleBar subreddit={route?.params?.subreddit} textStyle={{fontSize: 24}} />
         </Animated.View>
 
         {/* TODO need to figure out how to integrate into react-navigation's tabbar */}
