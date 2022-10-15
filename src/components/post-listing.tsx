@@ -17,18 +17,7 @@ import SubredditLink from '@components/text/subreddit-link'
 import UserLink from '@components/text/user-link'
 
 import { htmlUnescape } from '@utils/text'
-
-const style = StyleSheet.create({
-  container: {
-    flexDirection: 'row-reverse',
-    overflow: 'hidden',
-  },
-  postTitle: {
-    flexShrink: 1,
-    fontSize: 20,
-    paddingVertical: 4,
-  }
-})
+import { useTypography } from '@ui/typography'
 
 export interface Post {
   author:                  string
@@ -47,15 +36,14 @@ interface PostItemProps {
 
 export default function PostItem({data}: PostItemProps) : JSX.Element {
   const {navigate} = useNavigation<NavigationProp<RootStackParamList>>()
-
   const route = useRoute()
-
+  const tgraphy = useTypography()
   // Is using a context here instead of formatDistanceToNow, actually a performancce improvement?
   const now = useContext(NowContext)
   const timeSubmittedAgo = formatDistance(fromUnixTime(data.created), now, {addSuffix: true})
 
   return (
-    <View style={[style.container]}>
+    <View style={{flexDirection: 'row-reverse', overflow: 'hidden'}}>
       <Vote direction="column" score={data?.score} style={{paddingHorizontal: 4, alignSelf: 'center'}} />
 
       <Pressable
@@ -70,7 +58,15 @@ export default function PostItem({data}: PostItemProps) : JSX.Element {
           ) : null
         }
 
-        <Text style={style.postTitle}>{htmlUnescape(data?.title)}</Text>
+        <Text
+          style={{
+            flexShrink: 1,
+            fontSize: tgraphy.header3.size,
+            paddingVertical: 4
+          }}
+        >
+          {htmlUnescape(data?.title)}
+        </Text>
 
         <Text>{timeSubmittedAgo} by <UserLink userName={data?.author} /></Text>
       </Pressable>

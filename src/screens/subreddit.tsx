@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 
-import { Animated, FlatList, StyleSheet, View } from 'react-native'
+import { Animated, FlatList, View } from 'react-native'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -21,21 +21,11 @@ import Loading from '@components/loading'
 import PageControls from '@components/page-controls'
 
 import TitleBar from '@components/title-bar'
-import { usePalette } from 'ui/palette'
+
+import { usePalette } from '@ui/palette'
+import { useTypography } from '@ui/typography'
 
 const PAGE_AMOUNT = 25
-
-const style = StyleSheet.create({
-  list: {
-    // marginHorizontal: 8,
-  },
-  separator: {
-    height: 12,
-  },
-  title: {
-    fontSize: 28,
-  },
-})
 
 type PageDirection = 'next' | 'previous'
 
@@ -76,6 +66,7 @@ type SubredditScreenProps = NativeStackScreenProps<RootStackParamList, 'Frontpag
 
 export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Element {
   const palette = usePalette()
+  const tgraphy = useTypography()
 
   const [pageState, dispatch] = useReducer(reducerSubredditPagePosition, initialSubredditPagePosition)
 
@@ -130,7 +121,7 @@ export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Ele
               <TitleBar subreddit={route?.params?.subreddit} />
             </Animated.View>
           }
-          ItemSeparatorComponent={() => <View style={style.separator} />}
+          ItemSeparatorComponent={() => <View style={{height: 12}} />}
           ListEmptyComponent={() => (isLoading) ? <Loading /> : <EmptyListComponent />}
           data={posts}
           keyExtractor={item => item.data.id}
@@ -153,7 +144,6 @@ export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Ele
           ref={postList}
           refreshing={isFetching}
           renderItem={({ item }) => <PostItem {...item} />}
-          style={style.list}
         />
 
         <Animated.View
@@ -177,7 +167,7 @@ export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Ele
             ],
           }}
         >
-          <TitleBar subreddit={route?.params?.subreddit} textStyle={{fontSize: 24}} />
+          <TitleBar subreddit={route?.params?.subreddit} textStyle={{fontSize: tgraphy.header2.size}} />
         </Animated.View>
 
         {/* TODO need to figure out how to integrate into react-navigation's tabbar */}
