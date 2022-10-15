@@ -1,4 +1,4 @@
-import { Pressable, PressableProps, StyleSheet, Text } from 'react-native'
+import { Pressable, PressableProps, StyleSheet, Text, TextStyle } from 'react-native'
 
 const style = StyleSheet.create({
   title: {
@@ -9,12 +9,13 @@ const style = StyleSheet.create({
 interface TitleBarProps {
   style?:     PressableProps
   subreddit?: string | null | undefined
+  textStyle?: TextStyle
 }
 
-function TitleBar({style: inStyle={}, subreddit=null}: TitleBarProps) : JSX.Element {
+function TitleBar({style: inStyle={}, textStyle: inTextStyle={}, subreddit=null}: TitleBarProps) : JSX.Element {
   return (
     <Pressable style={inStyle}>
-      <Text style={style.title}>
+      <Text style={[style.title, inTextStyle]}>
         {
           subreddit ? `r/${subreddit}` : 'MeReddit'
         }
