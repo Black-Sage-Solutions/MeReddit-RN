@@ -39,9 +39,9 @@ const themes: {[theme in ThemeKinds]: Palette} = {
       disabled: '#333',
     },
     fgColour: 'white',
-    primary: 'orange',
+    primary: 'lightskyblue',
     scheme: 'dark',
-    secondary: 'red',
+    secondary: 'lightblue',
     text: {
       disabled: '#888',
       fg: 'white',
@@ -56,9 +56,9 @@ const themes: {[theme in ThemeKinds]: Palette} = {
       disabled: '#eee',
     },
     fgColour: 'black',
-    primary: 'skyblue',
+    primary: 'orange',
     scheme: 'light',
-    secondary: 'lightblue',
+    secondary: 'red',
     text: {
       disabled: '#bbb',
       fg: 'black',
