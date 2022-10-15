@@ -41,7 +41,7 @@ interface SubredditPagePositionAction {
 
 const initialSubredditPagePosition: SubredditPagePositionState = {
   markers: [],
-  count: 25,
+  count: PAGE_AMOUNT,
 }
 
 function reducerSubredditPagePosition(state: SubredditPagePositionState, action: SubredditPagePositionAction) : SubredditPagePositionState {
