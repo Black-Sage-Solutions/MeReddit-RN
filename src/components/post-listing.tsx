@@ -6,7 +6,7 @@ import { StyleSheet, Text, View, Pressable } from 'react-native'
 
 import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native'
 
-import { RootStackParamList } from '@app/navigation/root'
+import { RootStackParamList } from '@app/navigation/reddits'
 
 import NowContext from '@contexts/now'
 
@@ -64,7 +64,6 @@ export default function PostItem({data}: PostItemProps) : JSX.Element {
         }}
         style={{flex: 1, padding: 8}} // TODO use spacing config
       >
-
         {
           route.name == 'Frontpage' ? (
             <SubredditLink subreddit={data?.subreddit} />

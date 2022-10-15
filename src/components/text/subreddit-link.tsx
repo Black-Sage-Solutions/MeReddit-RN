@@ -1,6 +1,6 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native'
 
-import { RootStackParamList } from '@app/navigation/root'
+import { RootStackParamList } from '@app/navigation/reddits'
 
 import LinkText from '@components/text/link-text'
 
