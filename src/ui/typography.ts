@@ -1,3 +1,5 @@
+import { TextStyle } from 'react-native'
+
 type TextBlock = 
   | 'body'
   | 'header1'
@@ -8,8 +10,8 @@ type TextBlock =
   | 'sub'
 
 interface TextDimentions {
-  size:    number
-  weight?: number
+  fontSize?:   TextStyle["fontSize"]
+  fontWeight?: TextStyle["fontWeight"]
 }
 
 type Typography = {
@@ -17,13 +19,13 @@ type Typography = {
 }
 
 const defaultConf: Typography = {
-  body: {size: 16,},
-  header1: {size: 28,},
-  header2: {size: 24,},
-  header3: {size: 20,},
-  header4: {size: 16,},
-  label: {size: 12,},
-  sub: {size: 10,},
+  body: {fontSize: 16,},
+  header1: {fontSize: 28,},
+  header2: {fontSize: 24,},
+  header3: {fontSize: 20,},
+  header4: {fontSize: 16,},
+  label: {fontSize: 12,},
+  sub: {fontSize: 10,},
 }
 
 export function useTypography() {

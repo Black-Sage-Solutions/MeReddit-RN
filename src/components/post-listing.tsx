@@ -60,8 +60,8 @@ export default function PostItem({data}: PostItemProps) : JSX.Element {
 
         <Text
           style={{
+            ...tgraphy.header3,
             flexShrink: 1,
-            fontSize: tgraphy.header3.size,
             paddingVertical: 4
           }}
         >

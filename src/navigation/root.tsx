@@ -33,7 +33,7 @@ export function RootNavigation() : JSX.Element {
           headerShown: false,
           tabBarHideOnKeyboard: true,
           tabBarLabelStyle: {
-            fontSize: tgraphy.label.size,
+            ...tgraphy.label,
           },
           tabBarStyle: {
             backgroundColor: palette.bgColour,
