@@ -8,7 +8,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import NowContext from '@app/contexts/now'
 import { useGetPostCommentsQuery } from '@app/reddit/noauth-api'
-import { RootStackParamList } from '@app/navigation/root'
+import { RootStackParamList } from '@app/navigation/reddits'
 import BaseScreen from '@app/screens/base'
 import { htmlUnescape } from '@app/utils/text'
 

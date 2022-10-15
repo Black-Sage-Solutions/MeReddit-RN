@@ -4,7 +4,7 @@ import { Animated, FlatList, StyleSheet, View } from 'react-native'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { RootStackParamList } from '@app/navigation/root'
+import { RootStackParamList } from '@app/navigation/reddits'
 
 import { useGetSubredditQuery } from '@app/reddit/noauth-api'
 
@@ -112,10 +112,7 @@ export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Ele
           ListHeaderComponent={() => 
             <Animated.View
               style={{
-                // alignContent: 'center',
-                // alignItems: 'center',
                 flex: 1,
-                // flexDirection: 'row',
                 height: 256,
                 justifyContent: 'center',
                 padding: 8,
