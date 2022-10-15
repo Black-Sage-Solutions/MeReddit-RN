@@ -167,7 +167,7 @@ export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Ele
             ],
           }}
         >
-          <TitleBar subreddit={route?.params?.subreddit} textStyle={{fontSize: tgraphy.header2.size}} />
+          <TitleBar subreddit={route?.params?.subreddit} textStyle={tgraphy.header2} />
         </Animated.View>
 
         {/* TODO need to figure out how to integrate into react-navigation's tabbar */}

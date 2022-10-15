@@ -11,7 +11,7 @@ export default function TitleBar({style: inStyle={}, textStyle: inTextStyle={}, 
   const tgraphy = useTypography()
   return (
     <Pressable style={inStyle}>
-      <Text style={[{fontSize: tgraphy.header1.size}, inTextStyle]}>
+      <Text style={[{...tgraphy.header1}, inTextStyle]}>
         {
           subreddit ? `r/${subreddit}` : 'MeReddit'
         }

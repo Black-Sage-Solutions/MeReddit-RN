@@ -58,9 +58,9 @@ export default function Vote({direction, score, style: inStyle={}}: VoteProps) :
       
       <Text
         style={{
-          alignSelf: 'center',
-          fontSize: tgraphy.sub.size,
           ...layout,
+          ...tgraphy.sub,
+          alignSelf: 'center',
         }}
       >
         {shorthandScore(score)}

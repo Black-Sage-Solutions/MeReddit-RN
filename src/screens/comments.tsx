@@ -72,7 +72,7 @@ function CommentView({data}: {data: Comment}) : JSX.Element {
       
       <Text
         selectable={true}
-        style={{fontSize: tgraphy.body.size}}
+        style={tgraphy.body}
         >
         {htmlUnescape(data.body)}
       </Text>
@@ -139,7 +139,7 @@ function PostView({post}: PostViewProps) : JSX.Element {
   return (
     <View style={[style.titleContainer, {backgroundColor: palette.bgColour}]}>
       <Text>{post.subreddit_name_prefixed}</Text>
-      <Text style={{fontSize: tgraphy.header2.size}}>{htmlUnescape(post.title)}</Text>
+      <Text style={tgraphy.header2}>{htmlUnescape(post.title)}</Text>
       <Text>Submitted by <UserLink userName={post.author} /></Text>
     </View>
   )

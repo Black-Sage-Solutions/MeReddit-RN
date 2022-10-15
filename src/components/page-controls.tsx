@@ -49,7 +49,7 @@ export default function PageControls({disabled, nextPage, page, previousPage, st
   const prevColour = isFirstPage || disabled ? palette.text.disabled : palette.text.fg
 
   const controlTextStyle = {
-    fontSize: tgraphy.sub.size,
+    ...tgraphy.sub,
     paddingHorizontal: 8
   }
 
