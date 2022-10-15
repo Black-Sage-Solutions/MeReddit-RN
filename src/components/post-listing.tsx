@@ -16,6 +16,8 @@ import SubredditLink from '@components/text/subreddit-link'
 
 import UserLink from '@components/text/user-link'
 
+import { htmlUnescape } from '@utils/text'
+
 const style = StyleSheet.create({
   container: {
     flexDirection: 'row-reverse',
@@ -69,7 +71,7 @@ export default function PostItem({data}: PostItemProps) : JSX.Element {
           ) : null
         }
 
-        <Text style={style.postTitle}>{data?.title}</Text>
+        <Text style={style.postTitle}>{htmlUnescape(data?.title)}</Text>
 
         <Text>{timeSubmittedAgo} by <UserLink userName={data?.author} /></Text>
       </Pressable>
