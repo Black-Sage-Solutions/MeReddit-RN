@@ -28,6 +28,6 @@ const defaultConf: Typography = {
   sub: {fontSize: 10,},
 }
 
-export function useTypography() {
+export function useTypography() : Typography {
 	return defaultConf
 }
