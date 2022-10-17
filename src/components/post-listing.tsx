@@ -1,6 +1,6 @@
 import { formatDistance, fromUnixTime } from 'date-fns'
 
-import { useContext } from 'react'
+import { PropsWithChildren, useContext } from 'react'
 
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 
@@ -19,11 +19,14 @@ import UserLink from '@components/text/user-link'
 import { htmlUnescape } from '@utils/text'
 import { useTypography } from '@ui/typography'
 
+
 export interface Post {
   author:                  string
   created:                 number
   id:                      string
   name:                    string
+  num_comments:            number
+  over_18:                 boolean
   score:                   number
   subreddit:               string
   subreddit_name_prefixed: string
@@ -41,6 +44,12 @@ export default function PostItem({data}: PostItemProps) : JSX.Element {
   // Is using a context here instead of formatDistanceToNow, actually a performancce improvement?
   const now = useContext(NowContext)
   const timeSubmittedAgo = formatDistance(fromUnixTime(data.created), now, {addSuffix: true})
+
+  const LabelNSFW = ({children}: PropsWithChildren) => (
+    data.over_18 ? (
+      <Text style={{color: 'red'}}>NSFW </Text>
+    ) : null
+  )
 
   return (
     <View style={{flexDirection: 'row-reverse', overflow: 'hidden'}}>
@@ -65,7 +74,7 @@ export default function PostItem({data}: PostItemProps) : JSX.Element {
             paddingVertical: 4
           }}
         >
-          {htmlUnescape(data?.title)}
+          <LabelNSFW />{htmlUnescape(data?.title)}
         </Text>
 
         <Text>{timeSubmittedAgo} by <UserLink userName={data?.author} /></Text>
