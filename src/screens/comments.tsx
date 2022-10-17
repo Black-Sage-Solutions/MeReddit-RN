@@ -63,14 +63,25 @@ function CommentView({data}: {data: Comment}) : JSX.Element {
   return (
     <View style={[style.container, {borderColor: palette.fgColour}]}>
       <View style={{alignItems: 'flex-start'}}>
-        <Text><UserLink userName={data.author} /> {timeSubmittedAgo}</Text>
-        <Vote direction="row" score={data?.score} style={{}} />
+        <UserLink userName={data.author} />
+        <View
+          style={{
+            alignItems: 'center',
+            alignSelf: 'stretch',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingVertical: 4,
+          }}
+        >
+          <Text>{timeSubmittedAgo}</Text>
+          <Vote direction="row" score={data?.score} style={{}} />
+        </View>
       </View>
       
       <Text
         selectable={true}
         style={tgraphy.body}
-        >
+      >
         {htmlUnescape(data.body)}
       </Text>
     </View>
@@ -92,6 +103,7 @@ interface Preview {
 
 interface Post {
   author: string
+  num_comments: number
   preview?: {
     enabled: boolean
     images:  Array<Preview>
