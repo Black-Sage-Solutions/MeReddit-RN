@@ -1,6 +1,6 @@
 import { formatDistance, fromUnixTime } from 'date-fns'
 
-import { useContext } from 'react'
+import { useContext, useMemo } from 'react'
 
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
 
@@ -21,15 +21,12 @@ import Vote from '@components/vote'
 
 import { usePalette } from '@ui/palette'
 import { useTypography } from '@ui/typography'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 
 const style = StyleSheet.create({
   container: {
     paddingHorizontal: 8,
     paddingVertical: 4,
-  },
-  imagePreview: {
-    alignSelf: 'center',
-    marginTop: 8,
   },
   list: {
     marginHorizontal: 8,
@@ -108,24 +105,24 @@ interface PostPreviewProps {
 }
 
 function PostPreview({post}: PostPreviewProps) : JSX.Element {
-  const img = post?.preview?.images[0]?.resolutions[0] || null
-  return (
-    <>
-      {
-        (img)
-        ? (
-          <Image
-            source={{
-              height: img.height,
-              uri: htmlUnescape(img.url),
-              width: img.width
-            }}
-            style={style.imagePreview}
-          />
-        ) : null
-      }
-    </>
-  )
+  // FIXME find out what's causing a re-render, something happening in the comments FlatList perhaps?
+
+  // resolutions are sorted by dimentions
+  const img = [...(post?.preview?.images[0]?.resolutions || [])].pop() || null // TODO this is a mess
+
+  if (img === null) {
+    return <></>
+  }
+
+  const aspectRatio = useMemo(() => (img.width / img.height), [img.height, img.width])
+
+  return <Image
+    resizeMode='cover'
+    source={{
+      uri: htmlUnescape(img.url),
+    }}
+    style={{aspectRatio, backgroundColor: 'darkgray'}}
+  />
 }
 
 interface PostViewProps {
