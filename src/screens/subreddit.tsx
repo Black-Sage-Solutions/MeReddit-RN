@@ -140,7 +140,7 @@ export default function SubredditScreen({route}: SubredditScreenProps) : JSX.Ele
               useNativeDriver: true
             }
           )}
-          scrollEventThrottle={128} // TODO how does the results look on 60hz+ screen?
+          scrollEventThrottle={16} // TODO how does the results look on 60hz+ screen?
           ref={postList}
           refreshing={isFetching}
           renderItem={({ item }) => <PostItem {...item} />}
