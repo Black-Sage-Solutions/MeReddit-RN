@@ -35,8 +35,9 @@ const style = StyleSheet.create({
     height: 12,
   },
   titleContainer: {
-    marginHorizontal: 8+8,
+    marginHorizontal: 8,
     paddingVertical: 8,
+    paddingHorizontal: 8,
   },
 })
 
@@ -179,6 +180,7 @@ export default function CommentsScreen({route}: CommentsScreenProps) : JSX.Eleme
           ListEmptyComponent={() => (isLoading) ? <Loading /> : <EmptyListComponent />}
           ListHeaderComponent={() => <PostPreview post={post} />}
           ListHeaderComponentStyle={{paddingVertical: 8}}
+          ListFooterComponent={() => <ItemSeparator />}
           data={comments}
           keyExtractor={item => item.data.id}
           onRefresh={refetch}
