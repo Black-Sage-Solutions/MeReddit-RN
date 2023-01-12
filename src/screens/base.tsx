@@ -3,9 +3,8 @@
  */
 
 import { ReactNode } from 'react'
-
-import { SafeAreaView } from 'react-native-safe-area-context'
-
+import { View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { usePalette } from '@ui/palette'
 
 interface BaseScreenProps {
@@ -13,11 +12,18 @@ interface BaseScreenProps {
 }
 
 export default function BaseScreen({children}: BaseScreenProps) : JSX.Element {
+  const insets = useSafeAreaInsets()
   const palette = usePalette()
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: palette.bgColour}}>
+    <View style={{
+      backgroundColor: palette.bgColour,
+      flex: 1,
+      paddingTop: insets.top,
+      paddingLeft: insets.left,
+      paddingRight: insets.right,
+    }}>
       {children}
-    </SafeAreaView>
+    </View>
   )
 }
