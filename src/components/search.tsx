@@ -1,9 +1,13 @@
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
+
+import BaseScreen from '@app/screens/base'
+
+import { Text } from '@components/text'
 
 export default function SearchComponent() : JSX.Element {
   return (
-    <View>
+    <BaseScreen>
       <Text>TODO search form</Text>
-    </View>
+    </BaseScreen>
   )
 }

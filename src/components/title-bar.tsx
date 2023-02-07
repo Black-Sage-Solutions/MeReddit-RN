@@ -1,4 +1,6 @@
-import { Pressable, PressableProps, Text, TextStyle } from 'react-native'
+import { Pressable, PressableProps, TextStyle } from 'react-native'
+
+import { Text } from '@components/text'
 import { useTypography } from '@ui/typography'
 
 interface TitleBarProps {

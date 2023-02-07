@@ -1,6 +1,8 @@
-import { Pressable, Text, TextStyle, View, ViewStyle } from 'react-native'
+import { Pressable, TextStyle, View, ViewStyle } from 'react-native'
 
 import Icon from 'react-native-vector-icons/FontAwesome5'
+
+import { Text } from '@components/text'
 
 import { usePalette } from '@ui/palette'
 import { useTypography } from '@ui/typography'
