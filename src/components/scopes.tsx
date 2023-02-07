@@ -2,9 +2,11 @@
  * TODO: maybe move module to src/reddit/config?
  */
 
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 
 import { useGetScopesQuery } from '@app/reddit/noauth-api'
+
+import { Text } from '@components/text'
 
 const style = StyleSheet.create({
   itemContainer: {

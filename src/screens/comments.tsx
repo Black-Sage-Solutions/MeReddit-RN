@@ -2,7 +2,9 @@ import { formatDistance, fromUnixTime } from 'date-fns'
 
 import { useContext, useMemo } from 'react'
 
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Image, StyleSheet, View } from 'react-native'
+
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
@@ -14,14 +16,12 @@ import { htmlUnescape } from '@app/utils/text'
 
 import EmptyListComponent from '@components/empty-list'
 import Loading from '@components/loading'
-
+import { Text } from '@components/text'
 import UserLink from 'components/text/user-link'
-
 import Vote from '@components/vote'
 
 import { usePalette } from '@ui/palette'
 import { useTypography } from '@ui/typography'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 
 const style = StyleSheet.create({
   container: {

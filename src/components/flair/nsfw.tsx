@@ -1,5 +1,8 @@
-import { Text, TextStyle, View } from 'react-native'
-import { useTypography } from 'ui/typography'
+import { TextStyle, View } from 'react-native'
+
+import { Text } from '@components/text'
+
+import { useTypography } from '@ui/typography'
 
 export default function NSFWFlair({style: inStyle={}}: {style?: TextStyle}) : JSX.Element {
   const tgraphy = useTypography()

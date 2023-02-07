@@ -2,7 +2,7 @@ import { formatDistance, fromUnixTime } from 'date-fns'
 
 import { PropsWithChildren, useContext } from 'react'
 
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, View, Pressable } from 'react-native'
 
 import { NavigationProp, useNavigation, useRoute } from '@react-navigation/native'
 
@@ -10,11 +10,10 @@ import { RootStackParamList } from '@app/navigation/reddits'
 
 import NowContext from '@contexts/now'
 
-import Vote from '@components/vote'
-
+import { Text } from '@components/text'
 import SubredditLink from '@components/text/subreddit-link'
-
 import UserLink from '@components/text/user-link'
+import Vote from '@components/vote'
 
 import { htmlUnescape } from '@utils/text'
 import { useTypography } from '@ui/typography'

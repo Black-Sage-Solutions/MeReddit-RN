@@ -1,13 +1,14 @@
 /**
  * 
  */
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 import { useGetUserQuery } from '@app/reddit/noauth-api'
 
 import BaseScreen from '@app/screens/base'
 
 import Loading from '@components/loading'
+import { Text } from '@components/text'
 
 const style = StyleSheet.create({
   container: {

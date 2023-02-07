@@ -1,4 +1,6 @@
-import { Text, TextProps } from 'react-native'
+import { TextProps } from 'react-native'
+
+import { Text } from '@components/text'
 
 /**
  * LinkText component that decorates children elements.
